@@ -1,103 +1,118 @@
-import Image from "next/image";
 
-export default function Home() {
+import { getProjects } from '../lib/contentful';
+import Image from 'next/image';
+import type { ProjectFields } from '../lib/types/project';
+
+export default async function HomePage() {
+  const projects = await getProjects();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="p-10">
+      <h1 className="text-3xl font-bold mb-6">My Portfolio Projects</h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((p) => {
+          const fields = p.fields as ProjectFields;
+
+          const displayImage = fields.displayImages?.[0];
+          const imgUrl = displayImage?.fields?.file?.url
+            ? `https:${displayImage.fields.file.url}`
+            : null;
+
+          return (
+            <li key={p.sys.id} className="border p-4 rounded-lg shadow">
+              {imgUrl && (
+                <Image
+                  src={imgUrl}
+                  alt={fields.projectName || 'Project image'}
+                  width={400}
+                  height={200}
+                  className="w-full h-40 object-cover rounded"
+                />
+              )}
+
+              <h2 className="text-xl font-semibold mt-3">
+                {fields.projectName || 'Untitled Project'}
+              </h2>
+
+              <p className="text-gray-600 mb-2">
+                {fields.shortDescription || 'No description provided.'}
+              </p>
+
+              {/* Full Description (as JSON for now) */}
+              {fields.fullDescription && (
+                <details className="mb-2">
+                  <summary className="cursor-pointer text-blue-600">Full Description</summary>
+                  <pre className="whitespace-pre-wrap text-xs bg-gray-50 p-2 rounded mt-1">
+                    {JSON.stringify(fields.fullDescription, null, 2)}
+                  </pre>
+                </details>
+              )}
+
+              {/* Figma Design Only */}
+              {fields.isFigmaDesignOnly !== undefined && (
+                <div className="mb-1">
+                  <span className="font-medium">Figma Design Only:</span> {fields.isFigmaDesignOnly ? 'Yes' : 'No'}
+                </div>
+              )}
+
+              {/* Links */}
+              <div className="flex flex-wrap gap-2 mb-2">
+                {typeof fields.appStoreLink === 'string' && fields.appStoreLink && (
+                  <a href={fields.appStoreLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">App Store</a>
+                )}
+                {typeof fields.googlePlayLink === 'string' && fields.googlePlayLink && (
+                  <a href={fields.googlePlayLink} target="_blank" rel="noopener noreferrer" className="text-green-600 underline">Google Play</a>
+                )}
+                {typeof fields.figmaLink === 'string' && fields.figmaLink && (
+                  <a href={fields.figmaLink} target="_blank" rel="noopener noreferrer" className="text-purple-600 underline">Figma</a>
+                )}
+              </div>
+
+              {/* Created Date */}
+              {typeof fields.createdDate === 'string' && fields.createdDate && (
+                <div className="mb-1 text-sm text-gray-500">
+                  <span className="font-medium">Created:</span> {fields.createdDate}
+                </div>
+              )}
+
+              {/* Demo Video */}
+              {typeof fields.demoVideo === 'string' && fields.demoVideo && (
+                <div className="mb-2">
+                  <video src={fields.demoVideo} controls className="w-full max-h-48 rounded" />
+                </div>
+              )}
+
+              {/* Display Images (beyond first) */}
+              {Array.isArray(fields.displayImages) && fields.displayImages.length > 1 && (
+                <div className="flex gap-2 mt-2 overflow-x-auto">
+                  {fields.displayImages.slice(1).map((img, idx) => {
+                    const url = img?.fields?.file?.url ? `https:${img.fields.file.url}` : null;
+                    return url ? (
+                      <Image
+                        key={img.sys?.id || idx}
+                        src={url}
+                        alt={typeof img.fields?.title === 'string' ? img.fields.title : 'Project image'}
+                        width={80}
+                        height={60}
+                        className="rounded border"
+                      />
+                    ) : null;
+                  })}
+                </div>
+              )}
+
+              {/* Client Country & Categories */}
+              <div className="mt-3 text-sm text-gray-500">
+                {typeof fields.clientCountry === 'string' && fields.clientCountry && <span>{fields.clientCountry}</span>}
+                {Array.isArray(fields.categories) && fields.categories.length > 0 && (
+                  <span> • {fields.categories.join(', ')}</span>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </main>
   );
 }
