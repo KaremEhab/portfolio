@@ -5,15 +5,19 @@
 
 /* ✅ Base color variables */
 /* ✅ Base color variables */
+/* ✅ Base color variables */
 :root {
+  --navbar-bg: rgba(255,255,255,0.7);
   --background: #ffffff;
   --foreground: #171717;
   --card-bg: #f5f5f5;
-  --card-border: #e5e7eb;
+  --card-border: #d0d1d4;
   --blue-500: #3b82f6;
 }
 /* ✅ Dark mode variables */
+/* ✅ Dark mode variables */
 :root.dark {
+  --navbar-bg: rgba(20,22,25,0.7);
   --background: #0a0a0a;
   --foreground: #ededed;
   --card-bg: #23272e;
