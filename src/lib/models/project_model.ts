@@ -2,7 +2,7 @@ import { Asset, Entry, EntrySkeletonType } from 'contentful';
 import { Document } from '@contentful/rich-text-types';
 
 // 1️⃣ Define your content model fields
-export interface ProjectFields {
+export interface projectModel {
   projectName: string;
   shortDescription?: string;
   fullDescription?: Document;
@@ -18,7 +18,7 @@ export interface ProjectFields {
 }
 
 // 2️⃣ Define a skeleton (helps with Contentful Entry typing)
-export type ProjectSkeleton = EntrySkeletonType<ProjectFields, 'project'>;
+export type ProjectSkeleton = EntrySkeletonType<projectModel, 'project'>;
 
 // 3️⃣ Define a full entry type
 export type ProjectEntry = Entry<ProjectSkeleton>;

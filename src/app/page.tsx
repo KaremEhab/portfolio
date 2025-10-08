@@ -2,9 +2,9 @@
 
 import { NormalizedProject } from "../lib/contentful";
 import Image from "next/image";
-import type { ProjectFields } from "../lib/types/project";
+import type { projectModel } from "../lib/models/project_model";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { useTheme } from "./providers/ThemeProvider";
+import { useTheme } from "../providers/ThemeProvider";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
@@ -33,24 +33,11 @@ export default function HomePage() {
     >
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">My Portfolio Projects</h1>
-
-        {/* 🌞/🌙 Dark Mode Toggle Button */}
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="p-2 rounded-full border hover:scale-110 transition-transform duration-200 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800"
-          aria-label="Toggle dark mode"
-        >
-          {theme === "dark" ? (
-            <span className="text-gray-800 text-xl">🌙</span>
-          ) : (
-            <span className="text-yellow-400 text-xl">☀️</span>
-          )}
-        </button>
       </div>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((p) => {
-          const fields = p.fields as ProjectFields;
+          const fields = p.fields as projectModel;
 
           let displayImage = undefined;
           if (Array.isArray(fields.displayImages)) {

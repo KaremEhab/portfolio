@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./providers/ThemeProvider"; // ✅ Theme provider import
+import { ThemeProvider } from "../providers/ThemeProvider";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,25 +16,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "Kareem Ehab’s Portfolio Projects",
+  title: "Kareem Ehab | Portfolio",
+  description: "Portfolio Projects by Kareem Ehab",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300`}
       >
         <ThemeProvider>
-          <div className="min-h-screen">
-            {children}
-          </div>
+          <Navbar />
+          <main className="p-10 min-h-screen">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

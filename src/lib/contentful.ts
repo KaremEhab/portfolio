@@ -1,5 +1,5 @@
 import { createClient } from 'contentful';
-import type { ProjectEntry, ProjectFields } from './types/project';
+import type { ProjectEntry, projectModel } from './models/project_model';
 
 export const client = createClient({
   space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
@@ -19,7 +19,7 @@ function extractField<T>(field: unknown): T | undefined {
 }
 
 // Helper to normalize ProjectFields with defaults from Contentful entry fields
-export function normalizeProjectFields(fields: unknown): ProjectFields {
+export function normalizeProjectFields(fields: unknown): projectModel {
   const f = fields as Record<string, unknown>;
   return {
     projectName: extractField<string>(f.projectName) || '',
@@ -38,7 +38,7 @@ export function normalizeProjectFields(fields: unknown): ProjectFields {
 }
 
 // Normalized project type
-export type NormalizedProject = Omit<ProjectEntry, 'fields'> & { fields: ProjectFields };
+export type NormalizedProject = Omit<ProjectEntry, 'fields'> & { fields: projectModel };
 
 // Optional helper for cleaner fetching
 export async function getProjects(): Promise<NormalizedProject[]> {

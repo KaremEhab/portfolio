@@ -4,21 +4,25 @@
 /* ✅ Base color variables */
 
 /* ✅ Base color variables */
+/* ✅ Base color variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --card-bg: #f5f5f5;
   --card-border: #e5e7eb;
+  --blue-500: #3b82f6;
 }
+/* ✅ Dark mode variables */
 :root.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
   --card-bg: #23272e;
   --card-border: #333842;
+  --blue-500: #60a5fa;
 }
 
 /* ✅ Tailwind Theme Inline Variables */
-@theme inline {
+inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
