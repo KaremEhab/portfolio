@@ -20,16 +20,22 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
     const current = saved || (prefersDark ? "dark" : "light");
     setTheme(current);
-    document.documentElement.classList.toggle("dark", current === "dark");
+    if (current === "dark" || (current === "system" && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, []);
 
   const changeTheme = (newTheme: Theme) => {
     localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
-    document.documentElement.classList.toggle(
-      "dark",
-      newTheme === "dark" || (newTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (newTheme === "dark" || (newTheme === "system" && prefersDark)) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
 
   return (
