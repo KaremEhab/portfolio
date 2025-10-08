@@ -2,6 +2,7 @@
 import { getProjects } from '../lib/contentful';
 import Image from 'next/image';
 import type { ProjectFields } from '../lib/types/project';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 export default async function HomePage() {
   const projects = await getProjects();
@@ -14,7 +15,12 @@ export default async function HomePage() {
         {projects.map((p) => {
           const fields = p.fields as ProjectFields;
 
-          const displayImage = fields.displayImages?.[0];
+          let displayImage = undefined;
+          if (Array.isArray(fields.displayImages)) {
+            displayImage = fields.displayImages[0];
+          } else if (fields.displayImages && typeof fields.displayImages === 'object') {
+            displayImage = fields.displayImages;
+          }
           const imgUrl = displayImage?.fields?.file?.url
             ? `https:${displayImage.fields.file.url}`
             : null;
@@ -39,20 +45,20 @@ export default async function HomePage() {
                 {fields.shortDescription || 'No description provided.'}
               </p>
 
-              {/* Full Description (as JSON for now) */}
+              {/* Full Description (rendered rich text) */}
               {fields.fullDescription && (
                 <details className="mb-2">
                   <summary className="cursor-pointer text-blue-600">Full Description</summary>
-                  <pre className="whitespace-pre-wrap text-xs bg-gray-50 p-2 rounded mt-1">
-                    {JSON.stringify(fields.fullDescription, null, 2)}
-                  </pre>
+                  <div className="prose prose-sm max-w-none bg-gray-50 p-2 rounded mt-1">
+                    {documentToReactComponents(fields.fullDescription)}
+                  </div>
                 </details>
               )}
 
               {/* Figma Design Only */}
-              {fields.isFigmaDesignOnly !== undefined && (
+              {fields.isApp !== undefined && (
                 <div className="mb-1">
-                  <span className="font-medium">Figma Design Only:</span> {fields.isFigmaDesignOnly ? 'Yes' : 'No'}
+                  <span className="font-medium">Figma Design Only:</span> {fields.isApp ? 'Yes' : 'No'}
                 </div>
               )}
 
@@ -105,9 +111,14 @@ export default async function HomePage() {
               {/* Client Country & Categories */}
               <div className="mt-3 text-sm text-gray-500">
                 {typeof fields.clientCountry === 'string' && fields.clientCountry && <span>{fields.clientCountry}</span>}
-                {Array.isArray(fields.categories) && fields.categories.length > 0 && (
-                  <span> • {fields.categories.join(', ')}</span>
-                )}
+                {(() => {
+                  let cats = fields.categories;
+                  if (typeof cats === 'string') cats = [cats];
+                  if (Array.isArray(cats) && cats.length > 0) {
+                    return <span> • {cats.join(', ')}</span>;
+                  }
+                  return null;
+                })()}
               </div>
             </li>
           );
