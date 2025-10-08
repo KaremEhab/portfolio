@@ -1,14 +1,20 @@
+
 @import "tailwindcss";
+
+/* ✅ Base color variables */
 
 /* ✅ Base color variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-bg: #f5f5f5;
+  --card-border: #e5e7eb;
 }
-
-.dark {
+:root.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --card-bg: #23272e;
+  --card-border: #333842;
 }
 
 /* ✅ Tailwind Theme Inline Variables */

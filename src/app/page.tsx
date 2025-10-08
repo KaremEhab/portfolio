@@ -27,7 +27,10 @@ export default function HomePage() {
   if (!mounted) return null;
 
   return (
-    <main className="p-10 min-h-screen transition-colors duration-300 bg-white text-black dark:bg-gray-900 dark:text-white">
+    <main
+      className="p-10 min-h-screen transition-colors duration-300"
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
+    >
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">My Portfolio Projects</h1>
 
@@ -62,7 +65,8 @@ export default function HomePage() {
           return (
             <li
               key={p.sys.id}
-              className="border p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 bg-white dark:bg-gray-800 dark:border-gray-700"
+              className="border p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200"
+              style={{ background: "var(--card-bg)", borderColor: "var(--card-border)" }}
             >
               {imgUrl && (
                 <Image

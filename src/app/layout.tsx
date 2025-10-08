@@ -27,9 +27,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}
+        style={{ background: "var(--background)", color: "var(--foreground)" }}
       >
         <ThemeProvider>
-          <div className="min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white">
+          <div className="min-h-screen">
             {children}
           </div>
         </ThemeProvider>
