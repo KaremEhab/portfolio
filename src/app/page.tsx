@@ -1,6 +1,6 @@
 "use client";
 
-import { getProjects, NormalizedProject } from "../lib/contentful";
+import { NormalizedProject } from "../lib/contentful";
 import Image from "next/image";
 import type { ProjectFields } from "../lib/types/project";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
