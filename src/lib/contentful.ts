@@ -25,7 +25,7 @@ export function normalizeProjectFields(fields: unknown): ProjectFields {
     projectName: extractField<string>(f.projectName) || '',
     shortDescription: extractField<string>(f.shortDescription) || '',
     fullDescription: extractField(f.fullDescription),
-    isApp: extractField<boolean>(f.isFigmaDesignOnly) ?? false,
+    isFigmaDesignOnly: extractField<boolean>(f.isFigmaDesignOnly) ?? false,
     appStoreLink: extractField<string>(f.appStoreLink) || '',
     googlePlayLink: extractField<string>(f.googlePlayLink) || '',
     figmaLink: extractField<string>(f.figmaLink) || '',

@@ -6,7 +6,7 @@ export interface ProjectFields {
   projectName: string;
   shortDescription?: string;
   fullDescription?: Document;
-  isApp?: boolean;
+  isFigmaDesignOnly?: boolean;
   appStoreLink?: string;
   googlePlayLink?: string;
   figmaLink?: string;
