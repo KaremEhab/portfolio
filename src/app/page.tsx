@@ -37,11 +37,13 @@ export default function HomePage() {
         {projects.map((p) => {
           const fields = p.fields as projectModel;
 
-
           let displayImage = undefined;
           if (Array.isArray(fields.displayImages)) {
             displayImage = fields.displayImages[0];
-          } else if (fields.displayImages && typeof fields.displayImages === "object") {
+          } else if (
+            fields.displayImages &&
+            typeof fields.displayImages === "object"
+          ) {
             displayImage = fields.displayImages;
           }
           const imgUrl = displayImage?.fields?.file?.url
@@ -52,7 +54,10 @@ export default function HomePage() {
             <li
               key={p.sys.id}
               className="border p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200"
-              style={{ background: "var(--card-bg)", borderColor: "var(--card-border)" }}
+              style={{
+                background: "var(--card-bg)",
+                borderColor: "var(--card-border)",
+              }}
             >
               {imgUrl && (
                 <Image
@@ -94,16 +99,17 @@ export default function HomePage() {
 
               {/* Links */}
               <div className="flex flex-wrap gap-2 mb-2">
-                {typeof fields.appStoreLink === "string" && fields.appStoreLink && (
-                  <a
-                    href={fields.appStoreLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 underline"
-                  >
-                    App Store
-                  </a>
-                )}
+                {typeof fields.appStoreLink === "string" &&
+                  fields.appStoreLink && (
+                    <a
+                      href={fields.appStoreLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      App Store
+                    </a>
+                  )}
                 {typeof fields.googlePlayLink === "string" &&
                   fields.googlePlayLink && (
                     <a
