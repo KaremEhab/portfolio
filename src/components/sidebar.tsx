@@ -10,19 +10,16 @@ import { Search, Home, FolderCode, Code2, Mail, User2, Users2 } from "lucide-rea
 const useMediaQuery = (query: string) => {
     const [matches, setMatches] = useState(false);
     useEffect(() => {
-        // Set the initial value
         const media = window.matchMedia(query);
         if (media.matches !== matches) {
             setMatches(media.matches);
         }
-        // Update the value on resize
         const listener = () => setMatches(media.matches);
         window.addEventListener("resize", listener);
         return () => window.removeEventListener("resize", listener);
     }, [matches, query]);
     return matches;
 };
-
 
 const links = [
     { name: "Home", id: "home", icon: Home },
@@ -35,7 +32,6 @@ const links = [
 
 export default function Sidebar() {
     const [isMounted, setIsMounted] = useState(false);
-    // Check for mobile screen size (Tailwind's 'md' breakpoint is 768px)
     const isMobile = useMediaQuery("(max-width: 767px)");
     const [isCollapsed, setIsCollapsed] = useState(false);
     const { theme } = useTheme();
@@ -48,14 +44,12 @@ export default function Sidebar() {
         setIsMounted(true);
     }, []);
 
-    // Effect to automatically collapse the sidebar on mobile screens
     useEffect(() => {
         if (isMobile) {
             setIsCollapsed(true);
         }
     }, [isMobile]);
 
-    // This effect updates the CSS variable on the root element
     useEffect(() => {
         if (isMounted) {
             const newWidth = isCollapsed ? 'var(--sidebar-width-collapsed)' : 'var(--sidebar-width-expanded)';
@@ -63,12 +57,38 @@ export default function Sidebar() {
         }
     }, [isCollapsed, isMounted]);
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === "f") {
+                e.preventDefault();
+                searchRef.current?.focus();
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
+
+    useEffect(() => {
+        const sections = document.querySelectorAll("section[id]");
+        observer.current = new IntersectionObserver(
+            (entries) => {
+                const visible = entries.find((e) => e.isIntersecting)?.target;
+                if (visible) setActiveSection(visible.id);
+            },
+            { threshold: 0.5 }
+        );
+        sections.forEach((sec) => observer.current?.observe(sec));
+        return () => sections.forEach((sec) => observer.current?.unobserve(sec));
+    }, []);
+
     const scrollToSection = (id: string) => {
+        // This is the fix: update the active state when you click a link
+        setActiveSection(id);
+
         const element = document.getElementById(id);
         element?.scrollIntoView({ behavior: "smooth" });
     };
 
-    // Disable the toggle functionality on mobile
     const handleToggle = () => {
         if (!isMobile) {
             setIsCollapsed(!isCollapsed);
@@ -79,7 +99,6 @@ export default function Sidebar() {
 
     return (
         <aside
-            // Changed from "hidden md:flex" to "flex" to ensure it's always visible
             className="fixed top-0 left-0 h-screen flex flex-col w-[--sidebar-width]
                  backdrop-blur-xl border-r p-4 z-20 transition-all duration-300"
             style={{
@@ -89,14 +108,16 @@ export default function Sidebar() {
         >
             <div className="flex flex-col gap-1 flex-1">
                 <header className={`mb-4 flex items-center gap-2 ${isCollapsed ? 'justify-center' : ''}`}>
-                    <Image
-                        width={10}
-                        height={10}
-                        src={logoSrc}
-                        alt="Kareem Ehab Logo"
-                        className="w-10 h-10 object-contain"
-                        onClick={handleToggle}
-                    />
+                    <button onClick={handleToggle} disabled={isMobile} className={`relative w-10 h-10 flex-shrink-0 ${isMobile ? 'cursor-default' : 'cursor-pointer'}`}>
+                        {!isMounted ? (
+                            <Image width={40} height={40} src="assets/black-logo.svg" alt="Kareem Ehab Logo" className="object-contain" />
+                        ) : (
+                            <>
+                                <Image width={40} height={40} src="assets/black-logo.svg" alt="Kareem Ehab Logo" className="absolute object-contain transition-opacity duration-500 opacity-100 dark:opacity-0" />
+                                <Image width={40} height={40} src="assets/white-logo.svg" alt="Kareem Ehab Logo" className="absolute object-contain transition-opacity duration-500 opacity-0 dark:opacity-100" />
+                            </>
+                        )}
+                    </button>
 
                     {!isCollapsed && (
                         <>
