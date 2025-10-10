@@ -108,16 +108,14 @@ export default function Sidebar() {
         >
             <div className="flex flex-col gap-1 flex-1">
                 <header className={`mb-4 flex items-center gap-2 ${isCollapsed ? 'justify-center' : ''}`}>
-                    <button onClick={handleToggle} disabled={isMobile} className={`relative w-10 h-10 flex-shrink-0 ${isMobile ? 'cursor-default' : 'cursor-pointer'}`}>
-                        {!isMounted ? (
-                            <Image width={40} height={40} src="assets/black-logo.svg" alt="Kareem Ehab Logo" className="object-contain" />
-                        ) : (
-                            <>
-                                <Image width={40} height={40} src="assets/black-logo.svg" alt="Kareem Ehab Logo" className="absolute object-contain transition-opacity duration-500 opacity-100 dark:opacity-0" />
-                                <Image width={40} height={40} src="assets/white-logo.svg" alt="Kareem Ehab Logo" className="absolute object-contain transition-opacity duration-500 opacity-0 dark:opacity-100" />
-                            </>
-                        )}
-                    </button>
+                    <Image
+                        width={10}
+                        height={10}
+                        src={logoSrc}
+                        alt="Kareem Ehab Logo"
+                        className="w-10 h-10 object-contain"
+                        onClick={handleToggle}
+                    />
 
                     {!isCollapsed && (
                         <>
