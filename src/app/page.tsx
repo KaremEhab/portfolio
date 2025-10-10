@@ -7,7 +7,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { useEffect, useState, useRef } from "react";
 import { Smartphone, PenTool } from "lucide-react";
 
-// New JavaScript-powered Marquee component
+// JavaScript-powered Marquee component
 const Marquee = ({ speed = 60, className = "" }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -87,8 +87,8 @@ const Marquee = ({ speed = 60, className = "" }) => {
           <span className="mx-4 text-lg">Smooth Animations</span>
           <span className="text-primary mx-4">*</span>
           <span className="mx-4 text-lg">Adaptive UI</span>
+          <span className="text-primary mx-4">*</span>
         </div>
-        {/* Clone is added via JS */}
       </div>
     </div>
   );
@@ -106,93 +106,95 @@ export default function HomePage() {
   }, []);
 
   return (
-    // A single root div. Sections inside can now be centered individually.
-    <div>
-      {/* HOME SECTION */}
-      <section id="home" className="w-full max-w-5xl mx-auto min-h-screen flex flex-col justify-center py-20 scroll-mt-20">
-        <h1 className="text-5xl md:text-6xl font-bold max-w-3xl leading-tight">
-          Building Beautiful Experiences Through
-        </h1>
-        <p className="text-3xl md:text-4xl text-muted-foreground mt-4">
-          Flutter Development & UI UX Design
-        </p>
-        <div className="mt-16">
-          <h2 className="text-2xl font-semibold mb-6">What I Offer</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
-              <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-                <Smartphone className="text-primary" />
+    <>
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-10">
+        <section id="home" className="min-h-screen flex flex-col justify-center py-20 scroll-mt-20">
+          <h1 className="text-5xl md:text-6xl font-bold max-w-3xl leading-tight">
+            Building Beautiful Experiences Through
+          </h1>
+          <p className="text-3xl md:text-4xl text-muted-foreground mt-4">
+            Flutter Development & UI UX Design
+          </p>
+          <div className="mt-16">
+            <h2 className="text-2xl font-semibold mb-6">What I Offer</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
+                <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
+                  <Smartphone className="text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Cross-Platform Applications</h3>
+                <p className="text-muted-foreground text-sm">
+                  Building seamless apps that work perfectly across iOS, Android, and web platforms.
+                </p>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Cross-Platform Applications</h3>
-              <p className="text-muted-foreground text-sm">
-                Building seamless apps that work perfectly across iOS, Android, and web platforms.
-              </p>
-            </div>
-            <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
-              <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-                <PenTool className="text-primary" />
+              <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
+                <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
+                  <PenTool className="text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Initiative UI/UX Designs</h3>
+                <p className="text-muted-foreground text-sm">
+                  Creating intuitive and engaging user experiences with modern design principles.
+                </p>
               </div>
-              <h3 className="text-lg font-semibold mb-2">Initiative UI/UX Designs</h3>
-              <p className="text-muted-foreground text-sm">
-                Creating intuitive and engaging user experiences with modern design principles.
-              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      {/* Marquee is now a direct child of the main scrolling container */}
-      <Marquee speed={60} />
+      {/* The marquee sits outside the padded container to be full-width */}
+      <div className="w-full">
+        <Marquee speed={60} />
+      </div>
 
-      {/* PROJECTS SECTION */}
-      <section id="projects" className="w-full max-w-5xl mx-auto min-h-screen py-20 scroll-mt-20">
-        <h1 className="text-3xl font-bold mb-6">My Portfolio Projects</h1>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => {
-            const fields = p.fields as projectModel;
-            const imgUrl = fields.displayImages?.[0]?.fields?.file?.url
-              ? `https:${fields.displayImages[0].fields.file.url}`
-              : null;
+      <div className="w-full px-5">
+        <section id="projects" className="min-h-screen py-20 scroll-mt-20">
+          <h1 className="text-3xl font-bold mb-6">My Portfolio Projects</h1>
+          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((p) => {
+              const fields = p.fields as projectModel;
+              const imgUrl = fields.displayImages?.[0]?.fields?.file?.url
+                ? `https:${fields.displayImages[0].fields.file.url}`
+                : null;
 
-            return (
-              <li
-                key={p.sys.id}
-                className="border border-card-border bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200"
-              >
-                {imgUrl && (
-                  <Image
-                    src={imgUrl}
-                    alt={fields.projectName || "Project image"}
-                    width={400}
-                    height={200}
-                    className="w-full h-40 object-cover rounded"
-                  />
-                )}
-                <h2 className="text-xl font-semibold mt-3">{fields.projectName}</h2>
-                <p className="text-muted-foreground text-sm mt-1">{fields.shortDescription}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+              return (
+                <li
+                  key={p.sys.id}
+                  className="border border-card-border bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200"
+                >
+                  {imgUrl && (
+                    <Image
+                      src={imgUrl}
+                      alt={fields.projectName || "Project image"}
+                      width={400}
+                      height={200}
+                      className="w-full h-40 object-cover rounded"
+                    />
+                  )}
+                  <h2 className="text-xl font-semibold mt-3">{fields.projectName}</h2>
+                  <p className="text-muted-foreground text-sm mt-1">{fields.shortDescription}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
 
-      {/* OTHER SECTIONS - Each one is centered individually */}
-      <section id="skills" className="w-full max-w-5xl mx-auto min-h-screen py-20 scroll-mt-20">
-        <h2 className="text-3xl font-bold">Skills</h2>
-      </section>
+        <section id="skills" className="min-h-screen py-20 scroll-mt-20">
+          <h2 className="text-3xl font-bold">Skills</h2>
+        </section>
 
-      <section id="about" className="w-full max-w-5xl mx-auto min-h-screen py-20 scroll-mt-20">
-        <h2 className="text-3xl font-bold">About Me</h2>
-      </section>
+        <section id="about" className="min-h-screen py-20 scroll-mt-20">
+          <h2 className="text-3xl font-bold">About Me</h2>
+        </section>
 
-      <section id="testimonials" className="w-full max-w-5xl mx-auto min-h-screen py-20 scroll-mt-20">
-        <h2 className="text-3xl font-bold">Testimonials</h2>
-      </section>
+        <section id="testimonials" className="min-h-screen py-20 scroll-mt-20">
+          <h2 className="text-3xl font-bold">Testimonials</h2>
+        </section>
 
-      <section id="contact" className="w-full max-w-5xl mx-auto min-h-screen py-20 scroll-mt-20">
-        <h2 className="text-3xl font-bold">Contact Me</h2>
-      </section>
-    </div>
+        <section id="contact" className="min-h-screen py-20 scroll-mt-20">
+          <h2 className="text-3xl font-bold">Contact Me</h2>
+        </section>
+      </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../providers/ThemeProvider";
-import Sidebar from "@/components/sidebar"; // Corrected import to match filename
+import Sidebar from "@/components/sidebar";
 import Image from "next/image";
 
 const geistSans = Geist({
@@ -49,13 +49,14 @@ export default function RootLayout({
                 src="/assets/background-shapes.png"
                 alt="Abstract background shapes"
                 fill
-                className="object-cover opacity-10 pointer-events-none"
+                className="object-cover opacity-20 pointer-events-none"
               />
             </div>
 
             <div className="relative z-10">
               <Sidebar />
-              <main className="md:ml-[280px] p-6 md:p-10">
+              {/* Padding has been removed from here */}
+              <main className="md:ml-[280px]">
                 {children}
               </main>
             </div>
