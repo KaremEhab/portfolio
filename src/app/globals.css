@@ -1,47 +1,35 @@
-
 @import "tailwindcss";
 
-/* ✅ Base color variables */
-
-/* ✅ Base color variables */
-/* ✅ Base color variables */
-/* ✅ Base color variables */
 :root {
-  --navbar-bg: rgba(255,255,255,0.7);
-  --background: #ffffff;
-  --foreground: #171717;
-  --card-bg: #f5f5f5;
-  --card-border: #d0d1d4;
-  --blue-500: #3b82f6;
-}
-/* ✅ Dark mode variables */
-/* ✅ Dark mode variables */
-:root.dark {
-  --navbar-bg: rgba(20,22,25,0.7);
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --card-bg: #23272e;
-  --card-border: #333842;
-  --blue-500: #60a5fa;
+  /* Light theme variables (not currently used but good to have) */
+  --background: #FFFFFF;
+  --foreground: #0D1117;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --card-bg: #F6F8FA;
+  --card-border: #D0D7DE;
+  --muted-foreground: #57606A;
+  --bg-overlay: rgba(255, 255, 255, 0.7);
+  --sidebar-bg: rgba(255, 255, 255, 0.5);
+  --sidebar-border: rgba(0, 0, 0, 0.1);
 }
 
-/* ✅ Tailwind Theme Inline Variables */
-inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* Dark theme variables */
+  --background: #0D1117;
+  --foreground: #E6EDF3;
+  --primary: #3B82F6;
+  --primary-foreground: #FFFFFF;
+  --card-bg: #161B22;
+  --card-border: #30363D;
+  --muted-foreground: #8B949E;
+  --bg-overlay: rgba(22, 31, 62, 0.8);
+  --sidebar-bg: rgba(22, 31, 62, 0.5);
+  /* #161F3E at 50% opacity */
+  --sidebar-border: rgba(255, 255, 255, 0.1);
 }
 
-/* ✅ Global body styles */
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* ✅ Optional: smooth color transitions for all elements */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
 }

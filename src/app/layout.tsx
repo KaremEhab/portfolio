@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../providers/ThemeProvider";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import Sidebar from "@/components/sidebar"; // Corrected import to match filename
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,16 +24,45 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
-          <Navbar />
-          <main className="p-10 min-h-screen">{children}</main>
-          <Footer />
+          <div className="relative min-h-screen w-full">
+            <div className="fixed inset-0 z-0">
+              <Image
+                src="/assets/background-image.png"
+                alt="Stylized background image"
+                fill
+                className="object-cover pointer-events-none"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: "var(--bg-overlay)",
+                  backdropFilter: "blur(100px)",
+                  WebkitBackdropFilter: "blur(100px)",
+                }}
+              />
+              <Image
+                src="/assets/background-shapes.png"
+                alt="Abstract background shapes"
+                fill
+                className="object-cover opacity-10 pointer-events-none"
+              />
+            </div>
+
+            <div className="relative z-10">
+              <Sidebar />
+              <main className="md:ml-[280px] p-6 md:p-10">
+                {children}
+              </main>
+            </div>
+          </div>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
