@@ -7,7 +7,7 @@ export function HomePage() {
             className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-x-10 py-20 scroll-mt-20"
         >
             {/* LEFT CONTENT (takes up 60% of width on medium screens) */}
-            <div className="w-full md:w-4/6 flex flex-col justify-center text-center md:text-left">
+            <div className="w-full md:w-4/6 flex flex-col justify-center text-left">
                 <h1 className="text-5xl md:w-2/3 lg:text-4xl font-bold leading-tight">
                     Building Beautiful Experiences Through
                 </h1>
@@ -22,7 +22,9 @@ export function HomePage() {
                             <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
                                 <Smartphone className="text-primary" />
                             </div>
-                            <h3 className="text-m font-semibold mb-2">Cross-Platform Applications</h3>
+                            <h3 className="text-m font-semibold mb-2">
+                                Cross-Platform Applications
+                            </h3>
                             <p className="text-muted-foreground text-xs">
                                 Building seamless apps that work perfectly across iOS, Android, and web platforms.
                             </p>
@@ -31,7 +33,7 @@ export function HomePage() {
                             <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
                                 <PenTool className="text-primary" />
                             </div>
-                            <h3 className="text-m font-semibold mb-2">Initiative UI/UX Designs</h3>
+                            <h3 className="text-m font-semibold mb-2">Intuitive UI/UX Designs</h3>
                             <p className="text-muted-foreground text-xs">
                                 Creating intuitive and engaging user experiences with modern design principles.
                             </p>

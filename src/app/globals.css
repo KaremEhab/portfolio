@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 :root {
+  --sidebar-width-expanded: 260px;
+  --sidebar-width-collapsed: 80px;
+  --sidebar-width: var(--sidebar-width-expanded);
+  /* Default state */
+
   /* 🌤️ Light theme */
   --main-background: rgba(255, 255, 255, 0.9);
   --background: #ffffff;
@@ -23,6 +28,8 @@
 }
 
 .dark {
+  --sidebar-width: 260px;
+
   /* 🌙 Dark theme */
   --main-background: rgba(22, 31, 62, 0.5);
   --background: #0d1117;
@@ -67,4 +74,17 @@ html {
 
 .animate-marquee {
   animation: marquee 25s linear infinite;
+}
+
+/* New class to apply sidebar margin on all screen sizes */
+.ml-sidebar {
+  margin-left: var(--sidebar-width);
+}
+
+@media (min-width: 768px) {
+
+  /* This is Tailwind's 'md' breakpoint */
+  .md-ml-sidebar {
+    margin-left: var(--sidebar-width);
+  }
 }

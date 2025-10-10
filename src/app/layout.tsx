@@ -70,9 +70,7 @@ export default function RootLayout({
             <div className="relative z-10">
               <Sidebar />
               {/* Content offset to match sidebar width */}
-              <main className="md:ml-[260px] p-6 transition-all duration-300">
-                {children}
-              </main>
+              {children}
             </div>
           </div>
         </ThemeProvider>

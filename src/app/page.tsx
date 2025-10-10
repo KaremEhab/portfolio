@@ -4,7 +4,7 @@ import { Marquee } from "../components/marquee";
 import { HomePage } from "./home/page";
 import { SkillsPage } from "./skills/page";
 // import { PackagesPage } from "./packages/page";
-import { AboutPage } from "./about/page";
+import AboutPage from "./about/page";
 import { TestimonialsPage } from "./testimonials/page";
 import { ContactPage } from "./contact/page";
 import { ProjectsPage } from "./projects/page";
@@ -15,27 +15,31 @@ export default function App() {
     <>
       {/* SKILLS SECTION */}
       <div className="mx-auto px-6 md:px-5">
-        <HomePage />
+        <main className="ml-sidebar transition-all duration-300">
+          <HomePage />
+        </main>
       </div >
 
       {/* MARQUEE SECTION */}
       < Marquee />
 
       <div className="mx-auto px-6 md:px-5">
-        {/* PROJECTS SECTION */}
-        <ProjectsPage />
+        <main className="ml-sidebar transition-all duration-300">
+          {/* PROJECTS SECTION */}
+          <ProjectsPage />
 
-        {/* SKILLS SECTION */}
-        <SkillsPage />
+          {/* SKILLS SECTION */}
+          <SkillsPage />
 
-        {/* ABOUT SECTION */}
-        <AboutPage />
+          {/* ABOUT SECTION */}
+          <AboutPage />
 
-        {/* TESTIMONIALS SECTION */}
-        <TestimonialsPage />
+          {/* TESTIMONIALS SECTION */}
+          <TestimonialsPage />
 
-        {/* CONTACT SECTION */}
-        <ContactPage />
+          {/* CONTACT SECTION */}
+          <ContactPage />
+        </main>
       </div>
     </>
   );
