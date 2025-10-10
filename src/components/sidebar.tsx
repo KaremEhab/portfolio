@@ -22,12 +22,18 @@ const links = [
 ];
 
 export default function Sidebar() {
+    const [isMounted, setIsMounted] = useState(false);
     const currentYear = new Date().getFullYear();
     const [activeSection, setActiveSection] = useState("home");
     const observer = useRef<IntersectionObserver | null>(null);
     const searchRef = useRef<HTMLInputElement>(null);
 
-    // ✅ Cmd+F or Ctrl+F focuses the search bar
+    // This effect runs only on the client, after the component has mounted
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    // Focus search on Cmd+F or Ctrl+F
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             const isMac = navigator.platform.toUpperCase().includes("MAC");
@@ -42,7 +48,7 @@ export default function Sidebar() {
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
 
-    // ✅ Observe sections to highlight active link
+    // Observe sections to highlight active link
     useEffect(() => {
         const sections = document.querySelectorAll("section[id]");
         observer.current = new IntersectionObserver(
@@ -62,24 +68,48 @@ export default function Sidebar() {
     };
 
     return (
-        <aside className="fixed top-0 left-0 h-screen hidden md:flex flex-col w-[290px] bg-white/5 backdrop-blur-xl border-r border-white/10 p-6 z-20">
+        <aside
+            className="fixed top-0 left-0 h-screen hidden md:flex flex-col w-[260px]
+                 backdrop-blur-xl border-r p-4 z-20"
+            style={{
+                backgroundColor: "var(--sidebar-bg)",
+                borderColor: "var(--sidebar-border)",
+            }}
+        >
             {/* ===== Header ===== */}
-            <div className="flex flex-col gap-4 flex-1">
-                <header className="mb-4 flex items-center gap-4">
-                    {/* Logo */}
-                    <img
-                        src="assets/kareem-ehab-logo.svg"
-                        alt="Kareem Ehab Logo"
-                        className="w-10 h-10 object-contain"
-                    />
+            <div className="flex flex-col gap-1 flex-1">
+                <header className="mb-4 flex items-center gap-2">
+                    {isMounted ? (
+                        <>
+                            {/* Black Logo (visible in light mode, hidden in dark mode) */}
+                            <img
+                                src="assets/black-logo.svg"
+                                alt="Kareem Ehab Logo"
+                                className="w-10 h-10 object-contain block dark:hidden"
+                            />
 
-                    {/* Divider */}
-                    <div className="h-8 w-[1.5px] bg-white/40"></div>
-
-                    {/* Name + Subtitle */}
+                            {/* White Logo (hidden in light mode, visible in dark mode) */}
+                            <img
+                                src="assets/white-logo.svg"
+                                alt="Kareem Ehab Logo"
+                                className="w-10 h-10 object-contain hidden dark:block"
+                            />
+                        </>
+                    ) : (
+                        // Render a placeholder or default logo on the server and initial client render
+                        <img
+                            src="assets/black-logo.svg"
+                            alt="Kareem Ehab Logo"
+                            className="w-10 h-10 object-contain"
+                        />
+                    )}
+                    <div
+                        className="h-8 w-[1.5px]"
+                        style={{ backgroundColor: "var(--muted-foreground)" }}
+                    ></div>
                     <div>
-                        <h1 className="text-xl font-bold leading-tight">Kareem Ehab</h1>
-                        <p className="text-s text-white/70 mt-0.5">
+                        <h1 className="text-[13px] font-bold leading-tight">Kareem Ehab</h1>
+                        <p className="text-[10px] mt-0.5 text-muted-foreground">
                             Design Driven Development
                         </p>
                     </div>
@@ -88,14 +118,14 @@ export default function Sidebar() {
                 {/* ===== Search ===== */}
                 <div className="relative mb-4">
                     <Search
-                        className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60"
-                        size={18}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                        size={16}
                     />
                     <input
                         ref={searchRef}
                         type="search"
                         placeholder="Search..."
-                        className="w-full bg-transparent border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-[#4482E0]"
+                        className="w-full rounded-lg pl-10 pr-4 py-2 text-xs border border-transparent bg-[color:var(--primary-opacity)] text-[color:var(--foreground)] focus:outline-none focus:border-white transition-colors duration-200"
                     />
                 </div>
 
@@ -108,32 +138,55 @@ export default function Sidebar() {
                             <button
                                 key={link.id}
                                 onClick={() => scrollToSection(link.id)}
-                                className={`flex items-center gap-3 rounded-lg px-4 py-2.5 transition-all duration-200 text-left font-medium
-                                    ${isActive
-                                        ? "bg-[#4482E0] text-white shadow-md shadow-[#4482E0]/30"
-                                        : "bg-[#4482E0]/20 text-white/80 hover:bg-[#4482E0]/40 hover:text-white"
-                                    }`}
+                                className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all duration-200 text-left font-medium"
+                                style={{
+                                    backgroundColor: isActive
+                                        ? "var(--primary)"
+                                        : "var(--accent-bg)",
+                                    color: isActive ? "var(--primary-foreground)" : "var(--foreground)",
+                                    border: "1px solid transparent",
+                                    boxShadow: isActive
+                                        ? "0 0 10px rgba(59,130,246,0.3)"
+                                        : "none",
+                                }}
                             >
                                 <Icon
-                                    size={20}
-                                    strokeWidth={isActive ? 3 : 1.5}
-                                    className={`${isActive
-                                        ? "text-white fill-white"
-                                        : "text-white/80"
-                                        } transition-all duration-200`}
+                                    size={16}
+                                    strokeWidth={isActive ? 2.5 : 1.5}
+                                    style={{
+                                        color: isActive
+                                            ? "var(--primary-foreground)"
+                                            : "var(--foreground)",
+                                    }}
                                 />
-                                <span>{link.name}</span>
+                                <span className="text-xs">{link.name}</span>
                             </button>
                         );
                     })}
                 </nav>
 
                 {/* ===== Stats Box ===== */}
-                <div className="mt-auto bg-white/5 border border-white/10 rounded-lg p-4 text-center">
-                    <p className="text-4xl font-bold text-[#4482E0]">+152.4K</p>
-                    <p className="text-sm text-muted-foreground">Working Hours</p>
-                    {/* ===== Hire Me Button ===== */}
-                    <button className="w-full bg-[#4482E0] text-white font-semibold py-2.5 rounded-lg mt-4 hover:opacity-90 transition-opacity">
+                <div
+                    className="mt-auto rounded-lg p-4 text-center border"
+                    style={{
+                        backgroundColor: "var(--card-bg)",
+                        borderColor: "var(--card-border)",
+                    }}
+                >
+                    <p
+                        className="text-2xl font-bold"
+                        style={{ color: "var(--primary)" }}
+                    >
+                        +152.4K
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">Working Hours</p>
+                    <button
+                        className="w-full text-xs font-semibold py-2.5 rounded-lg mt-4 transition-opacity"
+                        style={{
+                            backgroundColor: "var(--primary)",
+                            color: "var(--primary-foreground)",
+                        }}
+                    >
                         Hire Me
                     </button>
                 </div>
@@ -142,18 +195,31 @@ export default function Sidebar() {
             {/* ===== Footer ===== */}
             <div className="mt-6">
                 <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-medium">Language</span>
-                    <div className="flex items-center gap-1 bg-transparent p-1 rounded-lg border border-white/10">
-                        <button className="px-3 py-1 text-sm rounded-md text-muted-foreground">
+                    <span className="text-xs font-medium">Language</span>
+                    <div
+                        className="flex items-center gap-1 bg-transparent p-1 rounded-lg border"
+                        style={{ borderColor: "var(--card-border)" }}
+                    >
+                        <button className="px-3 py-1 text-[11px] rounded-md text-muted-foreground">
                             العربية
                         </button>
-                        <button className="px-3 py-1 text-sm rounded-md bg-[#4482E0] text-white">
+                        <button
+                            className="px-3 py-1 text-[11px] rounded-md"
+                            style={{
+                                backgroundColor: "var(--primary)",
+                                color: "var(--primary-foreground)",
+                            }}
+                        >
                             English
                         </button>
                     </div>
                 </div>
 
-                <p className="text-xs text-muted-foreground mt-6 text-center">
+                <div className="mt-6">
+                    <ThemeToggle />
+                </div>
+
+                <p className="text-[10px] text-muted-foreground mt-6 text-center">
                     © {currentYear} Kareem Ehab, All rights reserved.
                 </p>
             </div>

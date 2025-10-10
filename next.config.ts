@@ -6,7 +6,15 @@ const nextConfig: NextConfig = {
   //   serverActions: true,
   // },
   images: {
-    domains: ['images.ctfassets.net'],
+    // This replaces the deprecated 'domains' with the new 'remotePatterns'
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.ctfassets.net",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   /* config options here */
 };

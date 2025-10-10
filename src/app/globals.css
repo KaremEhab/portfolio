@@ -1,35 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  /* Light theme variables (not currently used but good to have) */
-  --background: #FFFFFF;
-  --foreground: #0D1117;
-  --primary: #3B82F6;
-  --primary-foreground: #FFFFFF;
-  --card-bg: #F6F8FA;
-  --card-border: #D0D7DE;
-  --muted-foreground: #57606A;
-  --bg-overlay: rgba(255, 255, 255, 0.7);
+  /* 🌤️ Light theme */
+  --main-background: rgba(255, 255, 255, 0.9);
+  --background: #ffffff;
+  --foreground: #0d1117;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --primary-opacity: rgba(59, 130, 246, 0.3);
+
+  --card-bg: #f6f8fa;
+  --card-border: #d0d7de;
+
+  --muted-foreground: #57606a;
+
   --sidebar-bg: rgba(255, 255, 255, 0.5);
   --sidebar-border: rgba(0, 0, 0, 0.1);
+
+  --accent-bg: rgba(59, 130, 246, 0.2);
+  --accent-bg-hover: rgba(59, 130, 246, 0.4);
 }
 
 .dark {
-  /* Dark theme variables */
-  --background: #0D1117;
-  --foreground: #E6EDF3;
-  --primary: #3B82F6;
-  --primary-foreground: #FFFFFF;
-  --card-bg: #161B22;
-  --card-border: #30363D;
-  --muted-foreground: #8B949E;
-  --bg-overlay: rgba(22, 31, 62, 0.8);
+  /* 🌙 Dark theme */
+  --main-background: rgba(22, 31, 62, 0.5);
+  --background: #0d1117;
+  --foreground: #e6edf3;
+
+  --primary: #3b82f6;
+  --primary-foreground: #0d1117;
+  --primary-opacity: rgba(59, 130, 246, 0.25);
+
+  --card-bg: #161b22;
+  --card-border: #30363d;
+
+  --muted-foreground: #8b949e;
+
   --sidebar-bg: rgba(22, 31, 62, 0.5);
-  /* #161F3E at 50% opacity */
   --sidebar-border: rgba(255, 255, 255, 0.1);
+
+  --accent-bg: rgba(68, 130, 224, 0.2);
+  --accent-bg-hover: rgba(68, 130, 224, 0.4);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== Marquee Animation ===== */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
 }
