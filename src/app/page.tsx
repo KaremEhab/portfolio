@@ -1,13 +1,13 @@
 "use client";
 
 import { Marquee } from "../components/marquee";
-import { HomePage } from "./home/page";
-import { SkillsPage } from "./skills/page";
+import HomePage from "./home/page";
+import SkillsPage from "./skills/page";
 // import { PackagesPage } from "./packages/page";
 import AboutPage from "./about/page";
-import { TestimonialsPage } from "./testimonials/page";
-import { ContactPage } from "./contact/page";
-import { ProjectsPage } from "./projects/page";
+import TestimonialsPage from "./testimonials/page";
+import ContactPage from "./contact/page";
+import ProjectsPage from "./projects/page";
 
 
 export default function App() {

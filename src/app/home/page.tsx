@@ -1,7 +1,7 @@
 import { Smartphone, PenTool } from "lucide-react";
 import Image from "next/image";
 
-export function HomePage() {
+export default function HomePage() {
     return (
         <section
             id="home"

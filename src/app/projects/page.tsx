@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import type { projectModel } from "../../lib/models/project_model";
 
-export function ProjectsPage() {
+export default function ProjectsPage() {
   const [projects, setProjects] = useState<NormalizedProject[]>([]);
 
   useEffect(() => {
