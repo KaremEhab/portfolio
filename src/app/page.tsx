@@ -108,36 +108,62 @@ export default function HomePage() {
   return (
     <>
       <div className="w-full max-w-5xl mx-auto px-6 md:px-10">
-        <section id="home" className="min-h-screen flex flex-col justify-center py-20 scroll-mt-20">
-          <h1 className="text-5xl md:text-6xl font-bold max-w-3xl leading-tight">
-            Building Beautiful Experiences Through
-          </h1>
-          <p className="text-3xl md:text-4xl text-muted-foreground mt-4">
-            Flutter Development & UI UX Design
-          </p>
-          <div className="mt-16">
-            <h2 className="text-2xl font-semibold mb-6">What I Offer</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
-                <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-                  <Smartphone className="text-primary" />
+        {/* HOME SECTION */}
+        <section
+          id="home"
+          className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-10 py-20 scroll-mt-20"
+        >
+          {/* LEFT CONTENT */}
+          <div className="flex-1 flex flex-col justify-center">
+            <h1 className="text-5xl md:text-8xl font-bold max-w-3xl leading-tight">
+              Building Beautiful Experiences Through
+            </h1>
+            <p className="text-3xl md:text-xl text-muted-foreground mt-4">
+              Flutter Development & UI UX Design
+            </p>
+
+            <div className="mt-16">
+              <h2 className="text-2xl font-semibold mb-6">What I Offer</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-card-DEFAULT/50 backdrop-blur-sm border border-card-border rounded-xl p-6">
+                  <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
+                    <Smartphone className="text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">Cross-Platform Applications</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Building seamless apps that work perfectly across iOS, Android, and web platforms.
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Cross-Platform Applications</h3>
-                <p className="text-muted-foreground text-sm">
-                  Building seamless apps that work perfectly across iOS, Android, and web platforms.
-                </p>
-              </div>
-              <div className="bg-card-DEFAULT/50 border border-card-border rounded-xl p-6">
-                <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
-                  <PenTool className="text-primary" />
+                <div className="bg-card-DEFAULT/50 backdrop-blur-sm border border-card-border rounded-xl p-6">
+                  <div className="bg-primary/10 border border-primary/20 w-12 h-12 flex items-center justify-center rounded-lg mb-4">
+                    <PenTool className="text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">Initiative UI/UX Designs</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Creating intuitive and engaging user experiences with modern design principles.
+                  </p>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Initiative UI/UX Designs</h3>
-                <p className="text-muted-foreground text-sm">
-                  Creating intuitive and engaging user experiences with modern design principles.
-                </p>
               </div>
             </div>
           </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="flex-1 flex justify-center md:justify-end relative">
+            {/* BACKGROUND PATTERN */}
+            <img
+              src="assets/mobile-background-shape.svg"
+              alt="Background pattern"
+              className="max-w-[420px] w-full h-auto object-contain opacity-70 absolute right-0 bottom-0 translate-x-6 translate-y-4"
+            />
+
+            {/* FOREGROUND PHONE IMAGE */}
+            <img
+              src="assets/phone.png"
+              alt="Phone mockup"
+              className="relative z-10 max-w-[320px] w-full h-auto object-contain"
+            />
+          </div>
+
         </section>
       </div>
 
@@ -146,7 +172,7 @@ export default function HomePage() {
         <Marquee speed={60} />
       </div>
 
-      <div className="w-full px-5">
+      <div className="w-full max-w-5xl mx-auto px-6 md:px-10">
         <section id="projects" className="min-h-screen py-20 scroll-mt-20">
           <h1 className="text-3xl font-bold mb-6">My Portfolio Projects</h1>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

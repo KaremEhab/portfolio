@@ -132,12 +132,11 @@ export default function Sidebar() {
                 <div className="mt-auto bg-white/5 border border-white/10 rounded-lg p-4 text-center">
                     <p className="text-4xl font-bold text-[#4482E0]">+152.4K</p>
                     <p className="text-sm text-muted-foreground">Working Hours</p>
+                    {/* ===== Hire Me Button ===== */}
+                    <button className="w-full bg-[#4482E0] text-white font-semibold py-2.5 rounded-lg mt-4 hover:opacity-90 transition-opacity">
+                        Hire Me
+                    </button>
                 </div>
-
-                {/* ===== Hire Me Button ===== */}
-                <button className="w-full bg-[#4482E0] text-white font-semibold py-2.5 rounded-lg mt-4 hover:opacity-90 transition-opacity">
-                    Hire Me
-                </button>
             </div>
 
             {/* ===== Footer ===== */}

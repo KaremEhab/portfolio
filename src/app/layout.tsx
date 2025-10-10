@@ -55,8 +55,8 @@ export default function RootLayout({
 
             <div className="relative z-10">
               <Sidebar />
-              {/* Padding has been removed from here */}
-              <main className="md:ml-[280px]">
+              {/* This margin correctly offsets the content from the 290px sidebar */}
+              <main className="md:ml-[290px]">
                 {children}
               </main>
             </div>
