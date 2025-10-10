@@ -1,4 +1,5 @@
 import { Smartphone, PenTool } from "lucide-react";
+import Image from "next/image";
 
 export function HomePage() {
     return (
@@ -45,7 +46,9 @@ export function HomePage() {
             {/* RIGHT IMAGE (takes up 40% of width on medium screens) */}
             <div className="w-full md:w-2/5 flex justify-center md:justify-end relative mt-16 md:mt-0">
                 {/* BACKGROUND PATTERN */}
-                <img
+                <Image
+                    width={10}
+                    height={10}
                     src="assets/mobile-background-shape.svg"
                     alt="Background pattern"
                     className="w-full max-w-[350px] h-auto object-contain opacity-70 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
