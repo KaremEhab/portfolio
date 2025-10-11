@@ -1,6 +1,8 @@
 "use client";
 
-import { Marquee } from "../components/marquee";
+import {
+  Marquee
+} from "../components/marquee";
 import HomePage from "./home/page";
 import SkillsPage from "./skills/page";
 // import { PackagesPage } from "./packages/page";
@@ -18,7 +20,7 @@ export default function App() {
         <main className="ml-sidebar transition-all duration-300">
           <HomePage />
         </main>
-      </div >
+      </div>
 
       {/* MARQUEE SECTION */}
       < Marquee />
