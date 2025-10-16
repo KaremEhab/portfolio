@@ -4,6 +4,7 @@ import { NormalizedProject } from "../../lib/contentful";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import type { projectModel } from "../../lib/models/project_model";
+import PrototypePage from "@/components/prototype";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<NormalizedProject[]>([]);
@@ -39,6 +40,11 @@ export default function ProjectsPage() {
                 className="w-full h-40 object-cover rounded"
               />
             )}
+            {/* Prototype SECTION */}
+            <PrototypePage
+              className="w-[330px] h-[550px] mx-auto"   // green area
+              frameClassName="w-[375px] h-[812px]"      // fixed phone size
+            />
             <h2 className="text-xl font-semibold mt-3">{fields.projectName}</h2>
             <p className="text-muted-foreground text-sm mt-1">{fields.shortDescription}</p>
           </li>
