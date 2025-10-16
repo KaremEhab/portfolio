@@ -1,7 +1,7 @@
 "use client";
 
 import { NormalizedProject } from "../../lib/contentful";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { projectModel } from "../../lib/models/project_model";
 import PrototypePage from "@/components/prototype";
@@ -29,7 +29,7 @@ export default function ProjectsPage() {
         return (
           <li
             key={p.sys.id}
-            className="border border-card-border bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200 max-h-[500px] flex flex-col overflow-hidden"
+            className="bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200  flex flex-col overflow-hidden" style={{ border: "1px solid var(--card-border)" }}
           >
             {imgUrl && (
               <Image

@@ -16,7 +16,7 @@
   --primary-opacity: rgba(59, 130, 246, 0.3);
 
   --card-bg: #f6f8fa;
-  --card-border: #d0d7de;
+  --card-border: rgba(48, 54, 61, 0.2); 
 
   --muted-foreground: #57606a;
 
@@ -40,7 +40,7 @@
   --primary-opacity: rgba(59, 130, 246, 0.25);
 
   --card-bg: #161b22;
-  --card-border: #30363d;
+  --card-border: rgba(208, 215, 222, 0.2);
 
   --muted-foreground: #8b949e;
 

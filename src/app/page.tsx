@@ -10,7 +10,6 @@ import AboutPage from "./about/page";
 import TestimonialsPage from "./testimonials/page";
 import ContactPage from "./contact/page";
 import ProjectsPage from "./projects/page";
-import PrototypePage from "@/components/prototype";
 
 
 export default function App() {
