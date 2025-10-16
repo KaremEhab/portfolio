@@ -16,7 +16,7 @@
   --primary-opacity: rgba(59, 130, 246, 0.3);
 
   --card-bg: #f6f8fa;
-  --card-border: rgba(48, 54, 61, 0.2); 
+  --card-border: rgba(48, 54, 61, 0.2);
 
   --muted-foreground: #57606a;
 
@@ -82,9 +82,22 @@ html {
 }
 
 @media (min-width: 768px) {
-
   /* This is Tailwind's 'md' breakpoint */
   .md-ml-sidebar {
     margin-left: var(--sidebar-width);
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
 }
