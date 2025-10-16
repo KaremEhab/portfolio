@@ -74,7 +74,7 @@ export default function ProjectsPage() {
         <div ref={dropdownRef} className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center justify-between gap-2 bg-primary px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary/50 backdrop-blur-md border border-white/20"
+            className="flex items-center justify-between gap-2 bg-primary text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary/50 backdrop-blur-md border border-white/20"
           >
             {selectedCategory}
             <ChevronDown
@@ -116,8 +116,8 @@ export default function ProjectsPage() {
             return (
               <li
                 key={p.sys.id}
-                className="relative bg-card-DEFAULT/50 min-w-[300px] max-w-[500px] flex-shrink-0 
-                     p-5 rounded-2xl shadow-lg hover:shadow-primary/30 
+                className="relative bg-card-DEFAULT/50 min-w-[300px] max-w-[500px] flex-shrink-0
+                     p-5 rounded-2xl shadow-lg hover:shadow-primary/30
                      transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden"
                 style={{ border: "1px solid var(--card-border)" }}
               >
@@ -156,7 +156,9 @@ export default function ProjectsPage() {
                 )}
 
                 {/* Embedded Prototype */}
-                <PrototypePage figmaEmbedUrl={fields.figmaEmbeddedLink} />
+                <div className="w-full" style={{ maxHeight: 400 }}>
+                  <PrototypePage figmaEmbedUrl={fields.figmaEmbeddedLink} />
+                </div>
 
                 {/* Details */}
                 <h2 className="text-xl font-semibold mt-3">

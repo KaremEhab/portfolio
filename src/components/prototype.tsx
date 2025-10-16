@@ -1,7 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+// A simple hook to check if an element is in the viewport
+const useInView = (options: IntersectionObserverInit = {}) => {
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+        // We can disconnect the observer once it's in view
+        observer.disconnect();
+      }
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [options]);
+
+  return [ref, inView] as const;
+};
 
 interface FigmaPrototypeProps {
   figmaEmbedUrl?: string;
@@ -19,6 +47,7 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
   backgroundColor = "#1E3A8A", // 🔵 Default blue background
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [ref, inView] = useInView({ threshold: 0.1 });
 
   if (!figmaEmbedUrl || typeof figmaEmbedUrl !== "string") {
     return (
@@ -40,17 +69,19 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
 
   return (
     <div
+      ref={ref}
       className={`relative rounded-[24px] overflow-hidden shadow-xl ${className}`}
       style={{
-        aspectRatio: "375 / 950", // increased height ratio
+        aspectRatio: "375 / 812", // Standard phone aspect ratio
         width: "100%",
+        maxWidth: "480px",
         maxHeight: "380px",
         margin: "0 auto",
         transition: "all 0.3s ease-in-out",
         backgroundColor, // apply blue background dynamically
       }}
     >
-      <div  className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
         <Image
           width={30}
           height={30}
@@ -59,29 +90,33 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
           className="w-30 h-30 object-contain"
         />
       </div>
-      {isLoading && (
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center gap-3"
-          style={{ backgroundColor }}
-        >
-          <Image
-            width={30}
-            height={30}
-            src="/assets/white-logo.svg"
-            alt="Kareem Ehab Logo"
-            className="w-30 h-30 object-contain"
-          />
-          <div className="w-8 h-8 border-4 border-white/40 border-t-white rounded-full animate-spin" />
-        </div>
-      )}
+      {inView && (
+        <>
+          {isLoading && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+              style={{ backgroundColor }}
+            >
+              <Image
+                width={30}
+                height={30}
+                src="/assets/white-logo.svg"
+                alt="Kareem Ehab Logo"
+                className="w-30 h-30 object-contain"
+              />
+              <div className="w-8 h-8 border-4 border-white/40 border-t-white rounded-full animate-spin" />
+            </div>
+          )}
 
-      <iframe
-        className="absolute top-0 left-0 w-full h-full border-0"
-        title="Figma Prototype"
-        src={cleanUrl.toString()}
-        allowFullScreen
-        onLoad={() => setIsLoading(false)}
-      ></iframe>
+          <iframe
+            className="absolute top-0 left-0 w-full h-full border-0"
+            title="Figma Prototype"
+            src={cleanUrl.toString()}
+            allowFullScreen
+            onLoad={() => setIsLoading(false)}
+          ></iframe>
+        </>
+      )}
     </div>
   );
 };
@@ -92,15 +127,11 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
 const PrototypePage: React.FC<{ figmaEmbedUrl?: string }> = ({
   figmaEmbedUrl,
 }) => {
-  const figmaPrototypeUrl =
-    figmaEmbedUrl ||
-    "https://embed.figma.com/proto/YLIh3gEZh7mr7dmcPKdTiW/Artist-App?page-id=0%3A1&node-id=2-43&starting-point-node-id=2%3A43&embed-host=share";
-
   return (
     <div className="w-full flex justify-center items-center">
       {/* You can change the background color here */}
       <FigmaPrototype
-        figmaEmbedUrl={figmaPrototypeUrl}
+        figmaEmbedUrl={figmaEmbedUrl}
         className="w-full"
         backgroundColor="#1E40AF" // 🔵 deep blue
       />
