@@ -132,13 +132,16 @@ export default function ProjectsPage() {
             return (
               <li
                 key={p.sys.id}
-                className="relative min-w-[300px] max-w-[500px] flex-shrink-0 
-        p-5 rounded-2xl
-        transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden
-        border border-[var(--card-border)]
-        bg-[var(--project-card-bg)]
-        hover:shadow-[0_4px_30px_var(--shadow-primary)]
-        mb-5"
+                className="
+    relative min-w-[300px] max-w-[500px] flex-shrink-0
+    p-5 rounded-2xl
+    transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden
+    border border-[var(--card-border)]
+    bg-[var(--project-card-bg)]
+    hover:shadow-[0_4px_30px_var(--shadow-primary)]
+    mb-5
+    first:hover:ml-7 last:hover:mr-5
+  "
               >
                 {/* 🔹 Figma badge */}
                 {!fields.isApp && fields.figmaLink && (
@@ -162,7 +165,7 @@ export default function ProjectsPage() {
 
                 {/* 🔹 Image Preview (iPhone or MacBook) */}
                 {imgUrl && (
-                  <div className="w-full max-w-[400px] max-h-[400px] flex items-center justify-center mx-auto">
+                  <div className="w-full max-w-[400px] h-64 flex items-center justify-center mx-auto">
                     {fields.categories?.some((cat) =>
                       ["web design", "next js"].includes(cat.toLowerCase())
                     ) ? (

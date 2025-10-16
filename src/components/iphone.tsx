@@ -31,7 +31,7 @@ const IphonePage: React.FC<IphonePageProps> = ({ imageSrc }) => {
     <div
       className="
         relative mx-auto flex items-center justify-center
-        w-full max-w-[260px] aspect-[9/19.5]
+        h-full aspect-[10/19.5]
         transition-all duration-300
       "
     >
@@ -39,7 +39,7 @@ const IphonePage: React.FC<IphonePageProps> = ({ imageSrc }) => {
       <div
         className="
           relative w-full h-full
-          bg-black rounded-[2rem]
+          bg-black rounded-[1.3rem]
           border border-gray-800 shadow-2xl
           flex items-center justify-center overflow-hidden
         "
@@ -48,7 +48,7 @@ const IphonePage: React.FC<IphonePageProps> = ({ imageSrc }) => {
         <div
           className="
             absolute top-[1.2rem] left-1/2 -translate-x-1/2
-            w-[35%] h-[0.55rem] bg-black rounded-full z-20
+            w-[30%] h-[0.55rem] bg-black rounded-full z-20
           "
         ></div>
 
@@ -71,7 +71,7 @@ const IphonePage: React.FC<IphonePageProps> = ({ imageSrc }) => {
         <div
           className="
             relative w-[90%] h-[94%] bg-black overflow-hidden
-            rounded-[1.5rem]
+            rounded-[0.8rem]
           "
         >
           {imageSrc ? (

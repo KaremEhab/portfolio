@@ -1,3 +1,5 @@
+// src/components/macbook.tsx
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -41,8 +43,14 @@ const MacbookScreen: React.FC<MacbookScreenProps> = ({ imageSrc }) => {
       <div className="w-full h-full relative" style={{ fontSize: "1.2vw" }}>
         {/* 💻 MacBook Screen */}
         <div className="absolute inset-0 flex flex-col items-center justify-end">
-          <div className="relative w-[90%] h-[88%] rounded-xl shadow-2xl bg-black p-[0.5%] border-[0.3vw] border-gray-800">
-            <div className="relative w-full h-full rounded-md overflow-hidden">
+          <div
+            className="relative w-[90%] h-[88%] shadow-2xl bg-black p-[0.5%] border-[0.3vw] border-gray-800"
+            style={{ borderRadius: "0.5vw" }} // Applied responsive border radius
+          >
+            <div
+              className="relative w-full h-full overflow-hidden"
+              style={{ borderRadius: "0.2vw" }} // Applied responsive border radius
+            >
               {/* Wallpaper */}
               {imageSrc ? (
                 <Image
@@ -64,10 +72,10 @@ const MacbookScreen: React.FC<MacbookScreenProps> = ({ imageSrc }) => {
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[12%] h-[3%] bg-black rounded-b-lg z-20" />
 
               {/* macOS Menu Bar */}
-              <div className="relative z-10 flex flex-col h-full text-white text-[1em]">
+              {/* <div className="relative z-10 flex flex-col h-full text-white text-[1em]">
                 <MenuBar time={time} />
                 <div className="flex-grow" />
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -98,32 +106,5 @@ const MacbookScreen: React.FC<MacbookScreenProps> = ({ imageSrc }) => {
     </div>
   );
 };
-
-const MenuBar = ({ time }: { time: string }) => (
-  <div
-    className="absolute top-0 left-0 right-0 flex justify-between items-center backdrop-blur-md z-20 text-black/70"
-    style={{
-      height: "8%",
-      padding: "0 3%",
-      backgroundColor: "rgba(255, 255, 255, 0.1)",
-      fontSize: "clamp(4px, 1vw, 8px)"
-    }}
-  >
-    <div className="flex items-center gap-[1em] font-semibold">
-      <p></p>
-      <p>File</p>
-      <p>Edit</p>
-      <p>View</p>
-      <p>Go</p>
-    </div>
-    <div className="flex items-center gap-[0.8em]">
-      {/* ✨ Change: Use relative 'em' units for icon sizes */}
-      <BatteryFull size="1.2em" />
-      <Wifi size="1.2em" />
-      <Search size="1.2em" />
-      <span>{time}</span>
-    </div>
-  </div>
-);
 
 export default MacbookScreen;
