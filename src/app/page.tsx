@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  Marquee
-} from "../components/marquee";
+import { Marquee } from "../components/marquee";
 import HomePage from "./home/page";
 import SkillsPage from "./skills/page";
 // import { PackagesPage } from "./packages/page";
@@ -10,7 +8,6 @@ import AboutPage from "./about/page";
 import TestimonialsPage from "./testimonials/page";
 import ContactPage from "./contact/page";
 import ProjectsPage from "./projects/page";
-
 
 export default function App() {
   return (
@@ -23,13 +20,15 @@ export default function App() {
       </div>
 
       {/* MARQUEE SECTION */}
-      < Marquee />
+      <Marquee />
+
+      {/* PROJECTS SECTION */}
+      <div className="bg-[var(--project-card-bg)] pb-5 pt-5 mt-20">
+        <ProjectsPage />
+      </div>
 
       <div className="mx-auto px-6 md:px-5">
         <main className="ml-sidebar transition-all duration-300">
-          {/* PROJECTS SECTION */}
-          <ProjectsPage />
-
           {/* SKILLS SECTION */}
           <SkillsPage />
 

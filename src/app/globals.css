@@ -4,6 +4,8 @@
   --sidebar-width-expanded: 260px;
   --sidebar-width-collapsed: 80px;
   --sidebar-width: var(--sidebar-width-expanded);
+
+  --shadow-primary: rgba(59, 130, 246, 0.25);
   /* Default state */
 
   /* 🌤️ Light theme */
@@ -16,6 +18,7 @@
   --primary-opacity: rgba(59, 130, 246, 0.3);
 
   --card-bg: #f6f8fa;
+  --project-card-bg: rgba(196, 222, 255, 0.2);
   --card-border: rgba(48, 54, 61, 0.2);
 
   --muted-foreground: #57606a;
@@ -40,6 +43,7 @@
   --primary-opacity: rgba(59, 130, 246, 0.25);
 
   --card-bg: #161b22;
+  --project-card-bg: rgba(68, 130, 224, 0.2);
   --card-border: rgba(208, 215, 222, 0.2);
 
   --muted-foreground: #8b949e;

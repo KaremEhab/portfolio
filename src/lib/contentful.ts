@@ -49,7 +49,10 @@ export type NormalizedProject = Omit<ProjectEntry, "fields"> & {
 
 // Optional helper for cleaner fetching
 export async function getProjects(): Promise<NormalizedProject[]> {
-  const response = await client.getEntries({ content_type: "portfolio" });
+  const response = await client.getEntries({
+    content_type: "portfolio",
+    include: 10,
+  });
   // Normalize fields for each entry
   return (response.items as unknown as ProjectEntry[]).map((entry) => ({
     ...entry,

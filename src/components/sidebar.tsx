@@ -227,10 +227,9 @@ export default function Sidebar() {
             </p>
             <p className="text-[11px] text-muted-foreground">Working Hours</p>
             <button
-              className="w-full text-xs font-semibold py-2.5 rounded-lg mt-4 transition-opacity"
+              className="w-full text-xs font-semibold py-2.5 text-white rounded-lg mt-4 transition-opacity"
               style={{
                 backgroundColor: "var(--primary)",
-                color: "var(--primary-foreground)",
               }}
             >
               Hire Me

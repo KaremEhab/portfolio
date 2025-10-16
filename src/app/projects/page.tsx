@@ -7,6 +7,8 @@ import { ChevronDown } from "lucide-react";
 import PrototypePage from "@/components/prototype";
 import type { NormalizedProject } from "../../lib/contentful";
 import type { projectModel } from "../../lib/models/project_model";
+import IphonePage from "@/components/iphone";
+import MacbookScreen from "@/components/macbook";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<NormalizedProject[]>([]);
@@ -65,7 +67,10 @@ export default function ProjectsPage() {
   };
 
   return (
-    <section id="projects" className="min-h-screen py-20 scroll-mt-20">
+    <section
+      id="projects"
+      className="ml-sidebar transition-all duration-300 pr-5 min-h-screen/2 scroll-mt-20"
+    >
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Projects</h1>
@@ -74,7 +79,7 @@ export default function ProjectsPage() {
         <div ref={dropdownRef} className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center justify-between gap-2 bg-primary text-white px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary/50 backdrop-blur-md border border-white/20"
+            className="flex items-center justify-between gap-2 bg-primary px-5 py-2.5 rounded-xl font-medium shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.03] active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-primary/50 backdrop-blur-md border border-white/20"
           >
             {selectedCategory}
             <ChevronDown
@@ -102,65 +107,78 @@ export default function ProjectsPage() {
       </div>
 
       {/* PROJECTS SCROLL ROW */}
-      <div className="overflow-x-auto overflow-y-hidden pb-4 scrollbar-hide">
+      <div className="overflow-x-auto overflow-y-hidden py-4 scrollbar-hide">
         <ul
-          className="flex gap-6 snap-x snap-mandatory scroll-smooth px-1"
+          className="flex gap-6 snap-x snap-mandatory scroll-smooth px-1 group"
           style={{ scrollBehavior: "smooth" }}
         >
           {filteredProjects.map((p) => {
             const fields = p.fields as projectModel;
-            const imgUrl = fields.displayImages?.[0]?.fields?.file?.url
-              ? `https:${fields.displayImages[0].fields.file.url}`
-              : null;
+
+            // ✅ Get first display image safely
+            const displayImage = Array.isArray(fields.displayImages)
+              ? fields.displayImages[0]
+              : fields.displayImages && typeof fields.displayImages === "object"
+              ? fields.displayImages
+              : undefined;
+
+            const imgUrl =
+              displayImage &&
+              "fields" in displayImage &&
+              displayImage.fields?.file?.url
+                ? `https:${displayImage.fields.file.url}`
+                : ""; // 👈 Optional fallback image
 
             return (
               <li
                 key={p.sys.id}
-                className="relative bg-card-DEFAULT/50 min-w-[300px] max-w-[500px] flex-shrink-0
-                     p-5 rounded-2xl shadow-lg hover:shadow-primary/30
-                     transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden"
-                style={{ border: "1px solid var(--card-border)" }}
+                className="relative min-w-[300px] max-w-[500px] flex-shrink-0 
+        p-5 rounded-2xl
+        transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden
+        border border-[var(--card-border)]
+        bg-[var(--project-card-bg)]
+        hover:shadow-[0_4px_30px_var(--shadow-primary)]
+        mb-5"
               >
-                {/* Figma Badge */}
+                {/* 🔹 Figma badge */}
                 {!fields.isApp && fields.figmaLink && (
                   <a
                     href={fields.figmaLink}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="absolute top-2 left-2 backdrop-blur-xl p-2 rounded-full z-10 border"
+                    style={{
+                      backgroundColor: "var(--background)/10",
+                      borderColor: "var(--card-border)",
+                    }}
                   >
-                    <div
-                      className="absolute top-2 left-2 backdrop-blur-xl p-2 rounded-full z-10 border"
-                      style={{
-                        backgroundColor: "var(--background)/10",
-                        borderColor: "var(--card-border)",
-                      }}
-                    >
-                      <img
-                        src="icons/figma-logo.svg"
-                        alt="Figma Logo"
-                        className="relative z-10 w-full max-w-[30px] h-auto object-contain"
-                      />
-                    </div>
+                    <img
+                      src="icons/figma-logo.svg"
+                      alt="Figma Logo"
+                      className="w-6 h-6 object-contain"
+                    />
                   </a>
                 )}
 
-                {/* Thumbnail */}
-                {imgUrl && !fields.isApp && (
-                  <Image
-                    src={imgUrl}
-                    alt={fields.projectName || "Project image"}
-                    width={400}
-                    height={200}
-                    className="w-full h-44 object-cover rounded-xl"
-                  />
+                {/* 🔹 Image Preview (iPhone or MacBook) */}
+                {imgUrl && (
+                  <div className="w-full max-w-[400px] max-h-[400px] flex items-center justify-center mx-auto">
+                    {fields.categories?.some((cat) =>
+                      ["web design", "next js"].includes(cat.toLowerCase())
+                    ) ? (
+                      <MacbookScreen imageSrc={imgUrl} />
+                    ) : (
+                      <IphonePage imageSrc={imgUrl} />
+                    )}
+                  </div>
                 )}
 
                 {/* Embedded Prototype */}
-                <div className="w-full" style={{ maxHeight: 400 }}>
+                {/* <div className="w-full" style={{ maxHeight: 400 }}>
                   <PrototypePage figmaEmbedUrl={fields.figmaEmbeddedLink} />
-                </div>
+                </div> */}
 
-                {/* Details */}
+                {/* 🔹 Text Info */}
                 <h2 className="text-xl font-semibold mt-3">
                   {fields.projectName}
                 </h2>
