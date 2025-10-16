@@ -45,7 +45,7 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
                 aspectRatio: "375 / 950", // increased height ratio
                 width: "100%",
                 maxWidth: "450px",
-                maxHeight: "400px",
+                maxHeight: "380px",
                 margin: "0 auto",
                 transition: "all 0.3s ease-in-out",
                 backgroundColor, // apply blue background dynamically
