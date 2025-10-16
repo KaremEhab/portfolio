@@ -1,17 +1,22 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 
 interface FigmaPrototypeProps {
     figmaEmbedUrl: string;
-    className?: string; // green wrapper style
-    frameClassName?: string; // Figma phone size only
+    className?: string; // outer wrapper
+    backgroundColor?: string; // optional custom background
 }
 
+/**
+ * Responsive Figma prototype that maintains an increased phone aspect ratio
+ * and scales responsively up to a fixed max width.
+ */
 const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
     figmaEmbedUrl,
     className = "",
-    frameClassName = "w-[375px] h-[812px]", // default phone size
+    backgroundColor = "#1E3A8A", // 🔵 Default blue background
 }) => {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -34,48 +39,62 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
     cleanUrl.searchParams.set("scaling", "contain");
 
     return (
-        // Outer wrapper (green background)
         <div
-            className={`flex items-center justify-center bg-white-700 rounded-[32px] shadow-lg overflow-hidden ${className}`}
+            className={`relative rounded-[24px] overflow-hidden shadow-xl ${className}`}
+            style={{
+                aspectRatio: "375 / 950", // increased height ratio
+                width: "100%",
+                maxWidth: "450px",
+                maxHeight: "400px",
+                margin: "0 auto",
+                transition: "all 0.3s ease-in-out",
+                backgroundColor, // apply blue background dynamically
+            }}
         >
-            {/* Fixed-size Figma phone */}
-            <div className={`relative ${frameClassName}`}>
-                {isLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-green-700">
-                        <div className="w-10 h-10 border-4 border-white/40 border-t-white rounded-full animate-spin" />
-                    </div>
-                )}
+            {isLoading && (
+                <div
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+                    style={{ backgroundColor }}
+                >
+                    <Image
+                        width={30}
+                        height={30}
+                        src="/assets/white-logo.svg"
+                        alt="Kareem Ehab Logo"
+                        className="w-30 h-30 object-contain"
+                    />
+                    <div className="w-8 h-8 border-4 border-white/40 border-t-white rounded-full animate-spin" />
+                </div>
+            )}
 
-                <iframe
-                    className="absolute top-0 left-0 w-full h-full border-0"
-                    title="Figma Prototype"
-                    src={cleanUrl.toString()}
-                    allowFullScreen
-                    onLoad={() => setIsLoading(false)}
-                ></iframe>
-            </div>
+
+            <iframe
+                className="absolute top-0 left-0 w-full h-full border-0"
+                title="Figma Prototype"
+                src={cleanUrl.toString()}
+                allowFullScreen
+                onLoad={() => setIsLoading(false)}
+            ></iframe>
         </div>
     );
 };
 
-interface PrototypePageProps {
-    className?: string; // green wrapper
-    frameClassName?: string; // fixed Figma phone
-}
-
-const PrototypePage: React.FC<PrototypePageProps> = ({
-    className = "w-[440px] h-[900px]", // freely resize this
-    frameClassName = "w-[375px] h-[812px]", // keeps the phone fixed
-}) => {
+/**
+ * Wrapper for FigmaPrototype that keeps it responsive inside project cards.
+ */
+const PrototypePage: React.FC = () => {
     const figmaPrototypeUrl =
         "https://embed.figma.com/proto/YLIh3gEZh7mr7dmcPKdTiW/Artist-App?page-id=0%3A1&node-id=2-43&starting-point-node-id=2%3A43&embed-host=share";
 
     return (
-        <FigmaPrototype
-            figmaEmbedUrl={figmaPrototypeUrl}
-            className={className}
-            frameClassName={frameClassName}
-        />
+        <div className="w-full flex justify-center items-center">
+            {/* You can change the background color here */}
+            <FigmaPrototype
+                figmaEmbedUrl={figmaPrototypeUrl}
+                className="w-full"
+                backgroundColor="#1E40AF" // 🔵 deep blue
+            />
+        </div>
     );
 };
 

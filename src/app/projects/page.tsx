@@ -29,7 +29,7 @@ export default function ProjectsPage() {
         return (
           <li
             key={p.sys.id}
-            className="border border-card-border bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200"
+            className="border border-card-border bg-card-DEFAULT/50 p-4 rounded-lg shadow-lg hover:shadow-primary/20 transition-shadow duration-200 max-h-[500px] flex flex-col overflow-hidden"
           >
             {imgUrl && (
               <Image
@@ -42,8 +42,6 @@ export default function ProjectsPage() {
             )}
             {/* Prototype SECTION */}
             <PrototypePage
-              className="w-[330px] h-[550px] mx-auto"   // green area
-              frameClassName="w-[375px] h-[812px]"      // fixed phone size
             />
             <h2 className="text-xl font-semibold mt-3">{fields.projectName}</h2>
             <p className="text-muted-foreground text-sm mt-1">{fields.shortDescription}</p>
