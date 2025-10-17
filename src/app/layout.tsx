@@ -22,7 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  modal,
+}: Readonly<{
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}>) {
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth dark">
       <body
@@ -71,6 +75,9 @@ export default function RootLayout({
               <Sidebar />
               {/* Content offset to match sidebar width */}
               {children}
+
+              {/* Modal is at the root to overlay everything correctly */}
+              {modal}
             </div>
           </div>
         </ThemeProvider>

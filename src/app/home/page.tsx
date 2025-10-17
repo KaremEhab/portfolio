@@ -1,3 +1,5 @@
+// src/app/home/page.tsx
+
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
@@ -17,8 +19,8 @@ export default function HomePage() {
 
   const logoSrc =
     isMounted && theme === "dark"
-      ? "assets/mobile-background-light-shape.svg"
-      : "assets/mobile-background-dark-shape.svg";
+      ? "/assets/mobile-background-light-shape.svg" // ✅ FIX: Added leading slash
+      : "/assets/mobile-background-dark-shape.svg";  // ✅ FIX: Added leading slash
 
   return (
     <section
@@ -77,8 +79,9 @@ export default function HomePage() {
         />
 
         {/* FOREGROUND PHONE IMAGE */}
+        {/* ✅ FIX: Corrected the image path */}
         <img
-          src="assets/phone.png"
+          src="/assets/phone.png"
           alt="Phone mockup"
           className="relative z-10 w-full max-w-[500px] h-auto object-contain"
         />

@@ -1,3 +1,4 @@
+import { Modal } from "@/components/modal";
 import { getProjects } from "@/lib/contentful";
 import { slugify } from "@/lib/utils";
 import { notFound } from "next/navigation";
@@ -6,7 +7,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { ExternalLink } from "lucide-react";
 import { Asset } from "contentful";
 
-// ✅ Re-using the same components for consistency
+// ✅ Renders rich text content from Contentful
 function RichText({ document }: { document: any | null }) {
     if (!document) return null;
     return (
@@ -16,13 +17,17 @@ function RichText({ document }: { document: any | null }) {
     );
 }
 
+// ✅ Reusable project layout component (used in both /projects/[slug] and modal)
 function ProjectContent({ project }: { project: any }) {
     const { fields } = project;
+
     const heroImage = (Array.isArray(fields.displayImages)
         ? fields.displayImages[0]
         : fields.displayImages) as Asset | undefined;
 
-    const heroImageUrl = heroImage?.fields?.file?.url ? `https:${heroImage.fields.file.url}` : "";
+    const heroImageUrl = heroImage?.fields?.file?.url
+        ? `https:${heroImage.fields.file.url}`
+        : "";
 
     return (
         <div>
@@ -52,17 +57,23 @@ function ProjectContent({ project }: { project: any }) {
                     <h2 className="text-2xl font-bold mb-4">About the project</h2>
                     <RichText document={fields.fullDescription} />
                 </div>
+
                 <aside className="md:col-span-1">
-                    <div className="sticky top-24">
+                    <div className="sticky top-8">
                         <h3 className="text-xl font-bold mb-4">Project Info</h3>
+
                         <div className="space-y-4 text-sm border-t border-card-border pt-4">
                             <div className="flex justify-between items-start gap-4">
                                 <span className="text-muted-foreground">Date</span>
-                                <span className="text-right font-medium">{fields.createdDate}</span>
+                                <span className="text-right font-medium">
+                                    {fields.createdDate}
+                                </span>
                             </div>
                             <div className="flex justify-between items-start gap-4">
                                 <span className="text-muted-foreground">Country</span>
-                                <span className="text-right font-medium">{fields.clientCountry}</span>
+                                <span className="text-right font-medium">
+                                    {fields.clientCountry}
+                                </span>
                             </div>
                             <div className="flex justify-between items-start gap-4">
                                 <span className="text-muted-foreground">Categories</span>
@@ -71,19 +82,35 @@ function ProjectContent({ project }: { project: any }) {
                                 </span>
                             </div>
                         </div>
+
                         <div className="mt-6 border-t border-card-border pt-6 flex flex-col gap-3">
                             {fields.figmaLink && (
-                                <a href={fields.figmaLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20">
+                                <a
+                                    href={fields.figmaLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20"
+                                >
                                     View on Figma <ExternalLink size={16} />
                                 </a>
                             )}
                             {fields.googlePlayLink && (
-                                <a href={fields.googlePlayLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20">
+                                <a
+                                    href={fields.googlePlayLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20"
+                                >
                                     Google Play Store <ExternalLink size={16} />
                                 </a>
                             )}
                             {fields.appStoreLink && (
-                                <a href={fields.appStoreLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20">
+                                <a
+                                    href={fields.appStoreLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-2 bg-primary/10 text-primary font-semibold py-2.5 rounded-lg transition hover:bg-primary/20"
+                                >
                                     Apple App Store <ExternalLink size={16} />
                                 </a>
                             )}
@@ -95,29 +122,26 @@ function ProjectContent({ project }: { project: any }) {
     );
 }
 
-export async function generateStaticParams() {
-    const projects = await getProjects();
-    return projects.map((p) => ({
-        slug: slugify(p.fields.projectName),
-    }));
-}
-
-
-export default async function ProjectDetailPage({
+// ✅ Server Component – safe to be async
+export default async function ProjectModal({
     params,
 }: {
-    params: Promise<{ slug: string }>;
+    params: { slug: string };
 }) {
-    const resolvedParams = await params;
-    const { slug } = resolvedParams;
+    const { slug } = params;
 
     const projects = await getProjects();
     const project = projects.find(
         (p) => slugify(p.fields.projectName) === slug
     );
 
-    if (!project) notFound();
+    if (!project) {
+        notFound();
+    }
 
-    return <ProjectContent project={project} />;
+    return (
+        <Modal>
+            <ProjectContent project={project} />
+        </Modal>
+    );
 }
-

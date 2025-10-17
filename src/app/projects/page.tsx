@@ -3,12 +3,13 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link"; // 👈 Import Link
 import { ChevronDown } from "lucide-react";
-import PrototypePage from "@/components/prototype";
 import type { NormalizedProject } from "../../lib/contentful";
 import type { projectModel } from "../../lib/models/project_model";
 import IphonePage from "@/components/iphone";
 import MacbookScreen from "@/components/macbook";
+import { slugify } from "@/lib/utils"; // 👈 Import slugify
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<NormalizedProject[]>([]);
@@ -66,6 +67,7 @@ export default function ProjectsPage() {
     }
   };
 
+
   return (
     <section
       id="projects"
@@ -108,13 +110,13 @@ export default function ProjectsPage() {
       {/* PROJECTS SCROLL ROW */}
       <div className="overflow-x-auto overflow-y-hidden py-4 scrollbar-hide">
         <ul
-          className="flex gap-6 snap-x snap-mandatory scroll-smooth px-1 group"
+          className="flex gap-6 snap-x snap-mandatory scroll-smooth px-1"
           style={{ scrollBehavior: "smooth" }}
         >
           {filteredProjects.map((p) => {
             const fields = p.fields as projectModel;
+            const slug = slugify(fields.projectName);
 
-            // ✅ Get first display image safely
             const displayImage = Array.isArray(fields.displayImages)
               ? fields.displayImages[0]
               : fields.displayImages && typeof fields.displayImages === "object"
@@ -126,67 +128,69 @@ export default function ProjectsPage() {
                 "fields" in displayImage &&
                 displayImage.fields?.file?.url
                 ? `https:${displayImage.fields.file.url}`
-                : ""; // 👈 Optional fallback image
+                : "";
 
             return (
               <li
                 key={p.sys.id}
                 className="
-    relative min-w-[300px] max-w-[500px] flex-shrink-0
-    p-5 rounded-2xl
-    transition-all duration-300 hover:scale-[1.03] snap-center overflow-hidden
-    border border-[var(--card-border)]
-    bg-[var(--project-card-bg)]
-    hover:shadow-[0_4px_30px_var(--shadow-primary)]
-    mb-5
-    first:hover:ml-7 last:hover:mr-5
-  "
+                  relative group min-w-[300px] max-w-[500px] flex-shrink-0
+                  p-5 rounded-2xl
+                  transition-all duration-300 group-hover:scale-[1.03] snap-center overflow-hidden
+                  border border-[var(--card-border)]
+                  bg-[var(--project-card-bg)]
+                  hover:shadow-[0_4px_30px_var(--shadow-primary)]
+                  mb-5
+                "
               >
-                {/* 🔹 Figma badge */}
+                {/* ✅ FIX: Stretched link to make the card clickable */}
+                <Link
+                  href={`/projects/${slug}`}
+                  className="absolute inset-0 z-10"
+                  aria-label={`View project: ${fields.projectName}`}
+                />
+
+                {/* 🔹 Figma badge (sits on top of the stretched link) */}
                 {!fields.isApp && fields.figmaLink && (
                   <a
                     href={fields.figmaLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute top-2 left-2 backdrop-blur-xl p-2 rounded-full z-10 border"
+                    className="absolute top-2 left-2 backdrop-blur-xl p-2 rounded-full z-20 border transition-transform hover:scale-110"
                     style={{
                       backgroundColor: "var(--background)/10",
                       borderColor: "var(--card-border)",
                     }}
                   >
                     <img
-                      src="icons/figma-logo.svg"
+                      src="/icons/figma-logo.svg"
                       alt="Figma Logo"
                       className="w-6 h-6 object-contain"
                     />
                   </a>
                 )}
 
-                {/* 🔹 Image Preview (iPhone or MacBook) */}
-                {imgUrl && (
-                  <div className="w-full max-w-[400px] h-64 flex items-center justify-center mx-auto">
-                    {fields.categories?.some((cat) =>
-                      ["web design", "next js"].includes(cat.toLowerCase())
-                    ) ? (
-                      <MacbookScreen imageSrc={imgUrl} />
-                    ) : (
-                      <IphonePage imageSrc={imgUrl} />
-                    )}
-                  </div>
-                )}
+                {/* 🔹 Visual Content (not clickable directly) */}
+                <div className="relative pointer-events-none">
+                  {imgUrl && (
+                    <div className="w-full max-w-[400px] h-64 flex items-center justify-center mx-auto">
+                      {fields.categories?.some((cat) =>
+                        ["web design", "next js"].includes(cat.toLowerCase())
+                      ) ? (
+                        <MacbookScreen imageSrc={imgUrl} />
+                      ) : (
+                        <IphonePage imageSrc={imgUrl} />
+                      )}
+                    </div>
+                  )}
 
-                {/* Embedded Prototype */}
-                {/* <div className="w-full" style={{ maxHeight: 400 }}>
-                  <PrototypePage figmaEmbedUrl={fields.figmaEmbeddedLink} />
-                </div> */}
-
-                {/* 🔹 Text Info */}
-                <h2 className="text-xl font-semibold mt-3">
-                  {fields.projectName}
-                </h2>
-                <p className="text-muted-foreground text-sm mt-1 line-clamp-1">
-                  {fields.shortDescription}
-                </p>
+                  <h2 className="text-xl font-semibold mt-3">
+                    {fields.projectName}
+                  </h2>
+                  <p className="text-muted-foreground text-sm mt-1 line-clamp-1">
+                    {fields.shortDescription}
+                  </p>
+                </div>
               </li>
             );
           })}
