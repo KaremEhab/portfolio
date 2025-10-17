@@ -26,7 +26,7 @@ export function Marquee() {
             ></div>
 
             {/* Subtle Filled Overlay */}
-            <div className="absolute inset-0 bg-primary/40 backdrop-blur-md"></div>
+            <div className="absolute inset-0 bg-[#4482E0]/40 backdrop-blur-md"></div>
 
             {/* Marquee Content */}
             <div className="relative z-10 w-full">

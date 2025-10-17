@@ -69,7 +69,7 @@ export default function ProjectsPage() {
   return (
     <section
       id="projects"
-      className="ml-sidebar transition-all duration-300 pr-5 min-h-screen/2 scroll-mt-20"
+      className="ml-sidebar transition-all duration-300 pr-5 pl-5 min-h-screen/2 scroll-mt-20"
     >
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
@@ -84,9 +84,8 @@ export default function ProjectsPage() {
             {selectedCategory}
             <ChevronDown
               size={18}
-              className={`transition-transform duration-300 ${
-                isDropdownOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""
+                }`}
             />
           </button>
 
@@ -119,13 +118,13 @@ export default function ProjectsPage() {
             const displayImage = Array.isArray(fields.displayImages)
               ? fields.displayImages[0]
               : fields.displayImages && typeof fields.displayImages === "object"
-              ? fields.displayImages
-              : undefined;
+                ? fields.displayImages
+                : undefined;
 
             const imgUrl =
               displayImage &&
-              "fields" in displayImage &&
-              displayImage.fields?.file?.url
+                "fields" in displayImage &&
+                displayImage.fields?.file?.url
                 ? `https:${displayImage.fields.file.url}`
                 : ""; // 👈 Optional fallback image
 
