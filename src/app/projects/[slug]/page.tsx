@@ -25,7 +25,7 @@ function ProjectContent({ project }: { project: any }) {
     const heroImageUrl = heroImage?.fields?.file?.url ? `https:${heroImage.fields.file.url}` : "";
 
     return (
-        <div>
+        <main className="ml-sidebar py-16 p-2 pr-5">
             <header className="mb-8 md:mb-12">
                 <h1 className="text-3xl md:text-5xl font-bold mb-2">
                     {fields.projectName}
@@ -91,7 +91,7 @@ function ProjectContent({ project }: { project: any }) {
                     </div>
                 </aside>
             </div>
-        </div>
+        </main>
     );
 }
 

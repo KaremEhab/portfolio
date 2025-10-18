@@ -2,14 +2,12 @@
 
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export function Modal({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // ✅ Prevent background scroll
         document.body.classList.add("modal-open");
 
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -26,41 +24,34 @@ export function Modal({ children }: { children: React.ReactNode }) {
     const onDismiss = () => router.back();
 
     return (
-        <div
-            ref={dialogRef}
-            className="fixed inset-0 z-40 flex justify-end p-0"
-        >
-            {/* ✅ Backdrop - covers full screen */}
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+            {/* 🔹 Backdrop */}
             <div
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
                 onClick={onDismiss}
             />
 
-            {/* ✅ Right-aligned modal sheet (no margin-left) */}
-            <div
-                className="
-          relative z-50
-          h-full
-          w-full md:w-[calc(100%-var(--sidebar-width))]
-          bg-card-bg/80 dark:bg-card-bg/60
-          backdrop-blur-2xl
-          border-l border-card-border
-          shadow-2xl
-          animate-slide-up
-          overflow-y-auto
-          p-8 md:p-12
-          rounded-none md:rounded-l-2xl
-        "
+            {/* 🔹 Floating close button (top-right of the screen) */}
+            <button
+                onClick={onDismiss}
+                className="fixed top-4 right-4 z-[60] p-2 rounded-full bg-white/10 hover:bg-white/20 transition"
+                aria-label="Close project details"
             >
-                {/* Close button */}
-                <button
-                    onClick={onDismiss}
-                    className="absolute top-4 right-4 p-2 rounded-full bg-background/50 hover:bg-background transition-colors"
-                >
-                    <X size={20} />
-                </button>
+                <X size={22} />
+            </button>
 
-                {children}
+            {/* 🔹 Modal content */}
+            <div
+                className="relative z-50 flex min-h-full items-center justify-center mt-20"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div
+                    className="relative w-full bg-card/80 backdrop-blur-2xl
+                     border border-white/10 shadow-2xl rounded-2xl
+                     text-white overflow-hidden"
+                >
+                    {children}
+                </div>
             </div>
         </div>
     );

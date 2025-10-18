@@ -107,8 +107,8 @@ export default function Sidebar() {
 
   const logoSrc =
     isMounted && theme === "dark"
-      ? "assets/white-logo.svg"
-      : "assets/black-logo.svg";
+      ? "/assets/white-logo.svg"
+      : "/assets/black-logo.svg";
 
   return (
     <aside
@@ -121,9 +121,8 @@ export default function Sidebar() {
     >
       <div className="flex flex-col gap-1 flex-1">
         <header
-          className={`mb-4 flex items-center gap-2 ${
-            isCollapsed ? "justify-center" : ""
-          }`}
+          className={`mb-4 flex items-center gap-2 ${isCollapsed ? "justify-center" : ""
+            }`}
         >
           <Image
             width={10}
@@ -176,9 +175,8 @@ export default function Sidebar() {
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
                 title={isCollapsed ? link.name : undefined}
-                className={`flex items-center gap-3 rounded-lg py-2 transition-all duration-200 text-left ${
-                  isActive ? "font-medium" : "font-small"
-                } ${isCollapsed ? "justify-center px-2" : "px-3"}`}
+                className={`flex items-center gap-3 rounded-lg py-2 transition-all duration-200 text-left ${isActive ? "font-medium" : "font-small"
+                  } ${isCollapsed ? "justify-center px-2" : "px-3"}`}
                 style={{
                   backgroundColor: isActive
                     ? "var(--primary)"
