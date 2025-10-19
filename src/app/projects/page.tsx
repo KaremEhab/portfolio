@@ -69,10 +69,10 @@ export default function ProjectsPage() {
   return (
     <section
       id="projects"
-      className="ml-sidebar transition-all duration-300 pr-5 pl-5 min-h-screen/2 scroll-mt-20"
+      className="ml-sidebar transition-all duration-300 pl-5 min-h-screen/2 scroll-mt-20"
     >
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 pl-5 mr-5 md:px-0">
         <h1 className="text-3xl font-bold">Projects</h1>
 
         {/* 🔽 Dropdown Menu */}

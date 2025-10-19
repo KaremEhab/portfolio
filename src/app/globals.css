@@ -92,9 +92,12 @@ html {
   margin-left: var(--sidebar-width);
 }
 
-@media (min-width: 768px) {
+/* Remove sidebar left margin on mobile */
+@media (max-width: 767px) {
+  .ml-sidebar,
   .md-ml-sidebar {
-    margin-left: var(--sidebar-width);
+    margin-left: 0 !important;
+    padding-left: 0 !important;
   }
 }
 
