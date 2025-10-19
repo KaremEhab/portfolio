@@ -13,7 +13,6 @@ const useInView = (options: IntersectionObserverInit = {}) => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setInView(true);
-        // We can disconnect the observer once it's in view
         observer.disconnect();
       }
     }, options);
@@ -34,18 +33,14 @@ const useInView = (options: IntersectionObserverInit = {}) => {
 
 interface FigmaPrototypeProps {
   figmaEmbedUrl?: string;
-  className?: string; // outer wrapper
-  backgroundColor?: string; // optional custom background
+  className?: string;
+  backgroundColor?: string;
 }
 
-/**
- * Responsive Figma prototype that maintains an increased phone aspect ratio
- * and scales responsively up to a fixed max width.
- */
 const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
   figmaEmbedUrl,
   className = "",
-  backgroundColor = "#1E3A8A", // 🔵 Default blue background
+  backgroundColor = "#1E3A8A",
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [ref, inView] = useInView({ threshold: 0.1 });
@@ -64,22 +59,22 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
   }
 
   const cleanUrl = new URL(figmaEmbedUrl);
-  cleanUrl.searchParams.set("hotspot-hints", "1");
+  cleanUrl.searchParams.set("hotspot-hints", "0");
   cleanUrl.searchParams.set("hide-ui", "true");
   cleanUrl.searchParams.set("scaling", "contain");
 
   return (
     <div
       ref={ref}
-      className={`relative rounded-[24px] overflow-hidden shadow-xl ${className}`}
+      // --- CHANGE: Added h-full to the className to ensure it takes parent's height ---
+      className={`relative overflow-hidden shadow-xl ${className}`}
       style={{
-        aspectRatio: "375 / 812", // Standard phone aspect ratio
+        // --- CHANGE: Removed aspectRatio, minWidth, and minHeight ---
         width: "100%",
-        maxWidth: "480px",
-        maxHeight: "380px",
+        height: "100%", // Explicitly set height to 100%
         margin: "0 auto",
         transition: "all 0.3s ease-in-out",
-        backgroundColor, // apply blue background dynamically
+        backgroundColor,
       }}
     >
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -108,7 +103,6 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
               <div className="w-8 h-8 border-4 border-white/40 border-t-white rounded-full animate-spin" />
             </div>
           )}
-
           <iframe
             className="absolute top-0 left-0 w-full h-full border-0"
             title="Figma Prototype"
@@ -122,19 +116,17 @@ const FigmaPrototype: React.FC<FigmaPrototypeProps> = ({
   );
 };
 
-/**
- * Wrapper for FigmaPrototype that keeps it responsive inside project cards.
- */
 const PrototypePage: React.FC<{ figmaEmbedUrl?: string }> = ({
   figmaEmbedUrl,
 }) => {
   return (
-    <div className="w-full flex justify-center items-center">
-      {/* You can change the background color here */}
+    // --- CHANGE: Added h-full here so it can be passed down ---
+    <div className="w-full h-full flex justify-center items-center">
       <FigmaPrototype
         figmaEmbedUrl={figmaEmbedUrl}
-        className="w-full"
-        backgroundColor="#1E40AF" // 🔵 deep blue
+        // --- CHANGE: And passed h-full to the child component ---
+        className="w-full h-full"
+        backgroundColor="#1E40AF"
       />
     </div>
   );
