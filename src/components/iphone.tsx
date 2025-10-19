@@ -52,21 +52,6 @@ const IphonePage: React.FC<IphonePageProps> = ({ imageSrc }) => {
           "
         ></div>
 
-        {/* Status Bar */}
-        <div
-          className="
-            absolute top-[0.4rem] left-0 right-0 z-10
-            flex justify-between items-center px-5 text-white/70 text-[0.75rem]
-            font-medium select-none
-          "
-        >
-          <span>{time}</span>
-          <div className="flex items-center gap-1">
-            <Wifi size={14} />
-            <BatteryFull size={14} />
-          </div>
-        </div>
-
         {/* Inner Screen */}
         <div
           className="
