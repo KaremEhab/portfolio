@@ -4,7 +4,7 @@ import { slugify } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { ExternalLink, Apple, Bot } from "lucide-react";
+import { ExternalLink, Apple, Bot, Globe } from "lucide-react";
 import { Asset } from "contentful";
 import PrototypePage from "@/components/prototype";
 import type { Document } from "@contentful/rich-text-types";
@@ -58,6 +58,18 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
                 className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-white/5 border border-white/20 rounded-lg transition hover:bg-white/10"
               >
                 View Figma Project <ExternalLink size={16} />
+              </a>
+            )}
+
+            {/* Website Link Button */}
+            {fields.websiteLink && (
+              <a
+                href={fields.websiteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-white/5 border border-white/20 rounded-lg transition hover:bg-white/10"
+              >
+                <Globe size={16} /> Visit Website
               </a>
             )}
 

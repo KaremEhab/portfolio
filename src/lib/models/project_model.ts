@@ -9,6 +9,7 @@ export interface projectModel {
   isApp?: boolean;
   appStoreLink?: string;
   googlePlayLink?: string;
+  websiteLink?: string;
   figmaLink?: string;
   figmaEmbeddedLink?: string; // Added this line
   clientCountry?: string;

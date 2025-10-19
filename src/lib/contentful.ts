@@ -32,6 +32,7 @@ export function normalizeProjectFields(fields: unknown): projectModel {
     isApp: extractField<boolean>(f.isApp) ?? false,
     appStoreLink: extractField<string>(f.appStoreLink) || "",
     googlePlayLink: extractField<string>(f.googlePlayLink) || "",
+    websiteLink: extractField<string>(f.websiteLink) || "",
     figmaLink: extractField<string>(f.figmaLink) || "",
     figmaEmbeddedLink: extractField<string>(f.figmaEmbeddedLink) || "",
     clientCountry: extractField<string>(f.clientCountry) || "",
