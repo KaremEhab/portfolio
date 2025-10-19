@@ -133,14 +133,14 @@ export default function ProjectsPage() {
               <li
                 key={p.sys.id}
                 className="
-                  relative group min-w-[300px] max-w-[500px] flex-shrink-0
-                  p-5 rounded-2xl
-                  transition-all duration-300 group-hover:scale-[1.03] snap-center overflow-hidden
-                  border border-[var(--card-border)]
-                  bg-[var(--project-card-bg)]
-                  hover:shadow-[0_4px_30px_var(--shadow-primary)]
-                  mb-5
-                "
+                 relative group min-w-[300px] max-w-[500px] flex-shrink-0
+                 p-5 rounded-2xl
+                 transition-all duration-300 group-hover:scale-[1.03] snap-center overflow-hidden
+                 border border-[var(--card-border)]
+                 bg-[var(--project-card-bg)]
+                 hover:shadow-[0_4px_30px_var(--shadow-primary)]
+                 mb-5
+                 first:hover:ml-[14px]"
               >
                 {/* ✅ FIX: Stretched link to make the card clickable */}
                 <Link

@@ -19,7 +19,7 @@ function RichText({ document }: { document: Document | null | undefined }) {
   );
 }
 
-// ✅ 2. ProjectContent component
+// ✅ 2. ProjectContent component - UPDATED FOR MOBILE
 function ProjectContent({ project }: { project: NormalizedProject }) {
   const { fields } = project;
   const displayImage = (
@@ -39,8 +39,12 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
     : "";
 
   return (
-    <div className="bg-card-bg/80 backdrop-blur-2xl border border-card-border rounded-2xl p-8 md:p-12 animate-slide-up grid md:grid-cols-5 gap-8 md:gap-16">
-      <div className="md:col-span-2 text-white flex flex-col gap-8 md:gap-12">
+    // --- Use flex-col for mobile layout, and grid for desktop ---
+    <div className="bg-card-bg/80 backdrop-blur-2xl border border-card-border rounded-2xl p-8 md:p-12 animate-slide-up flex flex-col md:grid md:grid-cols-5 gap-8 md:gap-16">
+      
+      {/* --- Left Column (Text Content) --- */}
+      {/* --- CHANGE: Appears FIRST on mobile (order-1) --- */}
+      <div className="md:col-span-2 text-white flex flex-col gap-8 md:gap-12 order-1">
         <header>
           <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white">
             {fields.projectName}
@@ -50,18 +54,6 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
           </p>
 
           <div className="flex flex-wrap items-center gap-4 mt-6">
-            {fields.figmaLink && (
-              <a
-                href={fields.figmaLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-white/5 border border-white/20 rounded-lg transition hover:bg-white/10"
-              >
-                View Figma Project <ExternalLink size={16} />
-              </a>
-            )}
-
-            {/* Website Link Button */}
             {fields.websiteLink && (
               <a
                 href={fields.websiteLink}
@@ -72,7 +64,16 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
                 <Globe size={16} /> Visit Website
               </a>
             )}
-
+            {fields.figmaLink && (
+              <a
+                href={fields.figmaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-white/5 border border-white/20 rounded-lg transition hover:bg-white/10"
+              >
+                View Figma Project <ExternalLink size={16} />
+              </a>
+            )}
             {fields.appStoreLink && (
               <a
                 href={fields.appStoreLink}
@@ -83,7 +84,6 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
                 <Apple size={16} /> App Store
               </a>
             )}
-
             {fields.googlePlayLink && (
               <a
                 href={fields.googlePlayLink}
@@ -137,8 +137,10 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
         </div>
       </div>
 
-      <aside className="md:col-span-3">
-        <div className="sticky top-8 h-full">
+      {/* --- Right Column (Prototype) --- */}
+      {/* --- CHANGE: Appears LAST on mobile (order-2) --- */}
+      <aside className="md:col-span-3 order-2">
+        <div className="h-[75vh] md:h-full md:sticky top-8">
           {fields.figmaEmbeddedLink && (
             <div className="rounded-xl overflow-hidden border border-card-border h-full">
               <PrototypePage figmaEmbedUrl={fields.figmaEmbeddedLink} />
@@ -153,10 +155,9 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
 export default async function ProjectModal({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const resolvedParams = await params;
-  const { slug } = resolvedParams;
+  const { slug } = params;
 
   const projects = await getProjects();
   const project = projects.find((p) => slugify(p.fields.projectName) === slug);

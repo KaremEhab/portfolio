@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link"; // ✅ 1. Import Link
+import { usePathname } from "next/navigation"; // ✅ 2. Import usePathname
 import ThemeToggle from "./ThemeToggle";
 import { useTheme } from "@/providers/ThemeProvider";
 import {
@@ -47,6 +49,7 @@ export default function Sidebar() {
   const [activeSection, setActiveSection] = useState("home");
   const observer = useRef<IntersectionObserver | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const pathname = usePathname(); // ✅ 3. Get the current URL path
 
   useEffect(() => {
     setIsMounted(true);
@@ -78,8 +81,11 @@ export default function Sidebar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // This effect handles scroll-based highlighting on the main page
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
+    if (sections.length === 0) return; // Don't run observer on pages without sections
+
     observer.current = new IntersectionObserver(
       (entries) => {
         const visible = entries.find((e) => e.isIntersecting)?.target;
@@ -89,15 +95,14 @@ export default function Sidebar() {
     );
     sections.forEach((sec) => observer.current?.observe(sec));
     return () => sections.forEach((sec) => observer.current?.unobserve(sec));
-  }, []);
+  }, [pathname]); // Re-run if the page changes
 
-  const scrollToSection = (id: string) => {
-    // This is the fix: update the active state when you click a link
-    setActiveSection(id);
-
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
-  };
+  // ✅ 4. This effect handles URL-based highlighting for detail pages
+  useEffect(() => {
+    if (pathname.startsWith("/projects")) {
+      setActiveSection("projects");
+    }
+  }, [pathname]);
 
   const handleToggle = () => {
     if (!isMobile) {
@@ -121,8 +126,9 @@ export default function Sidebar() {
     >
       <div className="flex flex-col gap-1 flex-1">
         <header
-          className={`mb-4 flex items-center gap-2 ${isCollapsed ? "justify-center" : ""
-            }`}
+          className={`mb-4 flex items-center gap-2 ${
+            isCollapsed ? "justify-center" : ""
+          }`}
         >
           <Image
             width={10}
@@ -171,21 +177,23 @@ export default function Sidebar() {
             const isActive = activeSection === link.id;
             const Icon = link.icon;
             return (
-              <button
+              // ✅ 5. Changed <button> to <Link> for proper navigation
+              <Link
                 key={link.id}
-                onClick={() => scrollToSection(link.id)}
+                href={`/#${link.id}`}
                 title={isCollapsed ? link.name : undefined}
-                className={`flex items-center gap-3 rounded-lg py-2 transition-all duration-200 text-left ${isActive ? "font-medium" : "font-small"
-                  } ${isCollapsed ? "justify-center px-2" : "px-3"}`}
+                className={`flex items-center gap-3 rounded-lg py-2 transition-all duration-200 text-left ${
+                  isActive ? "font-medium" : "font-small"
+                } ${isCollapsed ? "justify-center px-2" : "px-3"}`}
                 style={{
                   backgroundColor: isActive
                     ? "var(--primary)"
                     : "var(--accent-bg)",
                   color: isActive
                     ? theme === "light"
-                      ? "#ffffff" // white text for light mode
-                      : "var(--foreground)" // keep normal in dark mode
-                    : "var(--foreground)", // non-active links stay as they are
+                      ? "#ffffff"
+                      : "var(--foreground)"
+                    : "var(--foreground)",
                   border: "1px solid transparent",
                   boxShadow: isActive
                     ? "0 0 10px rgba(59,130,246,0.3)"
@@ -198,13 +206,13 @@ export default function Sidebar() {
                   style={{
                     color: isActive
                       ? theme === "light"
-                        ? "#ffffff" // white text for light mode
-                        : "var(--foreground)" // keep normal in dark mode
-                      : "var(--foreground)", // non-active links stay as they are
+                        ? "#ffffff"
+                        : "var(--foreground)"
+                      : "var(--foreground)",
                   }}
                 />
                 {!isCollapsed && <span className="text-xs">{link.name}</span>}
-              </button>
+              </Link>
             );
           })}
         </nav>
