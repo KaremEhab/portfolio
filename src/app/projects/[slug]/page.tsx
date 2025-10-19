@@ -19,7 +19,7 @@ function RichText({ document }: { document: Document | null | undefined }) {
   );
 }
 
-// ✅ 2. ProjectContent component - UPDATED FOR MOBILE
+// ✅ 2. ProjectContent component
 function ProjectContent({ project }: { project: NormalizedProject }) {
   const { fields } = project;
   const displayImage = (
@@ -32,18 +32,15 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
     ? `https:${displayImage.fields.file.url}`
     : "";
 
-  const videoUrl = fields.demoVideo
-    ? typeof fields.demoVideo === "string"
-      ? fields.demoVideo
-      : `https:${(fields.demoVideo as Asset).fields?.file?.url ?? ""}`
+  const videoAsset = fields.demoVideo as Asset | undefined;
+  const videoUrl = videoAsset?.fields?.file?.url
+    ? `https:${videoAsset.fields.file.url}`
     : "";
 
   return (
     // --- Use flex-col for mobile layout, and grid for desktop ---
     <div className="bg-card-bg/80 backdrop-blur-2xl border border-card-border rounded-2xl p-8 md:p-12 animate-slide-up flex flex-col md:grid md:grid-cols-5 gap-8 md:gap-16">
-      
       {/* --- Left Column (Text Content) --- */}
-      {/* --- CHANGE: Appears FIRST on mobile (order-1) --- */}
       <div className="md:col-span-2 text-white flex flex-col gap-8 md:gap-12 order-1">
         <header>
           <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white">
@@ -138,7 +135,6 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
       </div>
 
       {/* --- Right Column (Prototype) --- */}
-      {/* --- CHANGE: Appears LAST on mobile (order-2) --- */}
       <aside className="md:col-span-3 order-2">
         <div className="h-[75vh] md:h-full md:sticky top-8">
           {fields.figmaEmbeddedLink && (
@@ -155,9 +151,12 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
 export default async function ProjectModal({
   params,
 }: {
-  params: { slug: string };
+  // ✅ FIX: The params object is a Promise
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  // ✅ FIX: Await the promise to resolve it before accessing its properties.
+  const resolvedParams = await params;
+  const { slug } = resolvedParams;
 
   const projects = await getProjects();
   const project = projects.find((p) => slugify(p.fields.projectName) === slug);
