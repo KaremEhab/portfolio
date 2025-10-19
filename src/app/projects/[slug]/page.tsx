@@ -41,6 +41,7 @@ function ProjectContent({ project }: { project: NormalizedProject }) {
   return (
     // --- Use flex-col for mobile layout, and grid for desktop ---
     <div className="bg-card-bg/80 backdrop-blur-2xl border border-card-border rounded-2xl p-8 md:p-12 animate-slide-up flex flex-col md:grid md:grid-cols-5 gap-8 md:gap-16">
+      
       {/* --- Left Column (Text Content) --- */}
       {/* --- CHANGE: Appears FIRST on mobile (order-1) --- */}
       <div className="md:col-span-2 text-white flex flex-col gap-8 md:gap-12 order-1">
