@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link"; // 👈 Import Link
 import { ChevronDown } from "lucide-react";
 import type { NormalizedProject } from "../../lib/contentful";
@@ -67,7 +66,6 @@ export default function ProjectsPage() {
     }
   };
 
-
   return (
     <section
       id="projects"
@@ -86,8 +84,9 @@ export default function ProjectsPage() {
             {selectedCategory}
             <ChevronDown
               size={18}
-              className={`transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""
-                }`}
+              className={`transition-transform duration-300 ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
 
@@ -120,13 +119,13 @@ export default function ProjectsPage() {
             const displayImage = Array.isArray(fields.displayImages)
               ? fields.displayImages[0]
               : fields.displayImages && typeof fields.displayImages === "object"
-                ? fields.displayImages
-                : undefined;
+              ? fields.displayImages
+              : undefined;
 
             const imgUrl =
               displayImage &&
-                "fields" in displayImage &&
-                displayImage.fields?.file?.url
+              "fields" in displayImage &&
+              displayImage.fields?.file?.url
                 ? `https:${displayImage.fields.file.url}`
                 : "";
 

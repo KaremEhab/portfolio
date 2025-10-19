@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 
 interface MacbookScreenProps {
@@ -10,24 +10,6 @@ interface MacbookScreenProps {
 }
 
 const MacbookScreen: React.FC<MacbookScreenProps> = ({ imageSrc }) => {
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })
-      );
-    };
-    updateClock();
-    const timer = setInterval(updateClock, 60000);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
     <div
       className="relative flex flex-col items-center justify-center mx-auto"
@@ -69,12 +51,6 @@ const MacbookScreen: React.FC<MacbookScreenProps> = ({ imageSrc }) => {
 
               {/* Notch */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[12%] h-[3%] bg-black rounded-b-lg z-20" />
-
-              {/* macOS Menu Bar */}
-              {/* <div className="relative z-10 flex flex-col h-full text-white text-[1em]">
-                <MenuBar time={time} />
-                <div className="flex-grow" />
-              </div> */}
             </div>
           </div>
 
