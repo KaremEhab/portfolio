@@ -107,7 +107,7 @@ export default function ProjectsPage() {
       </div>
 
       {/* PROJECTS SCROLL ROW */}
-      <div className="overflow-x-auto overflow-y-hidden py-4 scrollbar-hide">
+      <div className="overflow-x-auto overflow-y-hidden py-4 custom-scrollbar">
         <ul
           className="flex gap-6 snap-x snap-mandatory scroll-smooth px-1"
           style={{ scrollBehavior: "smooth" }}

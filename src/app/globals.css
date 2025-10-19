@@ -68,7 +68,6 @@ body.modal-open {
   overflow: hidden;
 }
 
-
 html {
   scroll-behavior: smooth;
 }
@@ -146,4 +145,31 @@ html {
 
 .animate-fade-in {
   animation: fade-in 0.4s ease-out forwards;
+}
+
+/* 🌈 Professional Creative Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 10px; /* height for horizontal scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--primary), #8b5cf6);
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #a855f7, var(--primary));
+}
+
+/* For dark mode consistency */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #6366f1, #3b82f6);
+  border: 2px solid rgba(0, 0, 0, 0.3);
 }
